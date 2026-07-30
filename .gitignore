@@ -1,0 +1,36 @@
+# Root Gitignore for NeoOMFS Full-Stack Repository
+
+# --- Frontend (Android Studio) ---
+frontend/*.iml
+frontend/.gradle/
+frontend/local.properties
+frontend/.idea/
+frontend/build/
+frontend/app/build/
+frontend/.externalNativeBuild/
+frontend/.cxx/
+frontend/captures/
+
+# --- Backend (Spring Boot) ---
+backend/target/
+backend/*.iml
+backend/.idea/
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/reports/*
+!backend/reports/.gitkeep
+backend/src/main/resources/application-local.properties
+
+# --- IDEs & System Files ---
+.DS_Store
+Thumbs.db
+*.log
+*.hprof
+.vscode/
+.antigravity-ide/
+.agents/
+.gemini/
+/.gradle/
+/.idea/
+/build/
+/local.properties

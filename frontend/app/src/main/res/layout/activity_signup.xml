@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:fitsSystemWindows="true" xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://tools.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light"
+    tools:context=".activities.SignUpActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/layoutSignupFooter"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Main Card Container -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card_white"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <!-- Title & Description -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Create Account"
+                    android:textColor="@color/bg_dark_blue"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Enter your professional details to register for clinical access."
+                    android:textColor="@color/text_secondary_gray"
+                    android:textSize="14sp" />
+
+                <!-- Full Name Label & Input -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="FULL NAME"
+                    android:textColor="@color/text_secondary_gray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etFullName"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_edit_text"
+                    android:drawableStart="@drawable/ic_person"
+                    android:drawablePadding="12dp"
+                    android:drawableTint="@color/text_secondary_gray"
+                    android:hint="Dr. Jane Smith"
+                    android:textColorHint="@color/text_light_gray"
+                    android:inputType="textPersonName"
+                    android:paddingHorizontal="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_primary_dark"
+                    android:textSize="15sp" />
+
+                <!-- Hospital Label & Input -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="HOSPITAL/INSTITUTION"
+                    android:textColor="@color/text_secondary_gray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etHospital"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_edit_text"
+                    android:drawableStart="@drawable/ic_hospital"
+                    android:drawablePadding="12dp"
+                    android:drawableTint="@color/text_secondary_gray"
+                    android:hint="Mayo Clinic"
+                    android:textColorHint="@color/text_light_gray"
+                    android:inputType="textPostalAddress"
+                    android:paddingHorizontal="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_primary_dark"
+                    android:textSize="15sp" />
+
+                <!-- Medical License Label & Input -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="MEDICAL LICENSE #"
+                    android:textColor="@color/text_secondary_gray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etLicense"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_edit_text"
+                    android:drawableStart="@drawable/ic_license"
+                    android:drawablePadding="12dp"
+                    android:drawableTint="@color/text_secondary_gray"
+                    android:hint="MD-883921"
+                    android:textColorHint="@color/text_light_gray"
+                    android:inputType="text"
+                    android:paddingHorizontal="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_primary_dark"
+                    android:textSize="15sp" />
+
+                <!-- Professional Email Label & Input -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="PROFESSIONAL EMAIL"
+                    android:textColor="@color/text_secondary_gray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_edit_text"
+                    android:drawableStart="@drawable/ic_mail"
+                    android:drawablePadding="12dp"
+                    android:drawableTint="@color/text_secondary_gray"
+                    android:hint="jsmith@hospital.org"
+                    android:textColorHint="@color/text_light_gray"
+                    android:inputType="textEmailAddress"
+                    android:paddingHorizontal="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_primary_dark"
+                    android:textSize="15sp" />
+
+                <!-- Password Label & Input -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="PASSWORD"
+                    android:textColor="@color/text_secondary_gray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <EditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="@drawable/bg_edit_text"
+                        android:drawableStart="@drawable/ic_lock"
+                        android:drawablePadding="12dp"
+                        android:drawableTint="@color/text_secondary_gray"
+                        android:hint="••••••••••••"
+                        android:textColorHint="@color/text_light_gray"
+                        android:inputType="textPassword"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="50dp"
+                        android:singleLine="true"
+                        android:textColor="@color/text_primary_dark"
+                        android:textSize="15sp" />
+
+                    <!-- Eye toggle -->
+                    <ImageView
+                        android:id="@+id/ivEyeToggle"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/ic_eye"
+                        app:tint="@color/text_secondary_gray" />
+                </RelativeLayout>
+
+                <!-- Checkbox terms -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="top"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cbTerms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-2dp"
+                        android:buttonTint="@color/accent_blue" />
+
+                    <TextView
+                        android:id="@+id/tvTermsText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:lineSpacingExtra="2dp"
+                        android:text="I agree to the Terms of Service and acknowledge the clinical data privacy protocols."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <!-- Sign Up Button -->
+                <LinearLayout
+                    android:id="@+id/btnSignUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="54dp"
+                    android:paddingVertical="8dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/bg_button_dark"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sign Up"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="@color/white" />
+                </LinearLayout>
+
+                <!-- Already have an account link -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Already have an account? "
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvSignInLink"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="Sign In"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- HIPAA & Encryption Footer -->
+    <LinearLayout
+        android:id="@+id/layoutSignupFooter"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="#F8FAFC"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="24dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_shield"
+                app:tint="@color/text_secondary_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="HIPAA COMPLIANT"
+                android:textColor="@color/text_secondary_gray"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="16dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="#E2E8F0" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_lock"
+                app:tint="@color/text_secondary_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="256-BIT ENCRYPTED"
+                android:textColor="@color/text_secondary_gray"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
