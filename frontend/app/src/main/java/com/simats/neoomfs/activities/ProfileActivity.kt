@@ -14,6 +14,10 @@ import com.simats.neoomfs.R
 import com.simats.neoomfs.network.RetrofitClient
 import com.simats.neoomfs.repository.AuthRepository
 import kotlinx.coroutines.launch
+import android.app.AlertDialog
+import android.view.LayoutInflater
+import android.widget.EditText
+import com.simats.neoomfs.models.UpdateProfileRequest
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var authRepository: AuthRepository
@@ -26,6 +30,7 @@ class ProfileActivity : AppCompatActivity() {
         authRepository = AuthRepository(applicationContext)
 
         val btnBack = findViewById<ImageView>(R.id.btnBack)
+        val btnEditProfile = findViewById<TextView>(R.id.btnEditProfile)
         val btnLogOut = findViewById<LinearLayout>(R.id.btnLogOut)
         val tvProfileName = findViewById<TextView>(R.id.tvProfileName)
         val tvProfileRole = findViewById<TextView>(R.id.tvProfileRole)
@@ -70,6 +75,63 @@ class ProfileActivity : AppCompatActivity() {
                 .onFailure {
                     // Stored user is already displayed
                 }
+        }
+
+        btnEditProfile.setOnClickListener {
+            val currentUser = authRepository.getStoredUser()
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_edit_profile, null)
+            val etFullName = dialogView.findViewById<EditText>(R.id.etEditFullName)
+            val etUsername = dialogView.findViewById<EditText>(R.id.etEditUsername)
+            val etLicense = dialogView.findViewById<EditText>(R.id.etEditLicense)
+            val etDepartment = dialogView.findViewById<EditText>(R.id.etEditDepartment)
+            val etInstitution = dialogView.findViewById<EditText>(R.id.etEditInstitution)
+            val etPhone = dialogView.findViewById<EditText>(R.id.etEditPhone)
+
+            etFullName.setText(currentUser?.fullName ?: "")
+            etUsername.setText(currentUser?.username ?: "")
+            etLicense.setText(currentUser?.licenseNumber ?: "")
+            etDepartment.setText(currentUser?.department ?: "")
+            etInstitution.setText(currentUser?.institution ?: "")
+            etPhone.setText(currentUser?.phoneNumber ?: "")
+
+            AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setPositiveButton("Save") { _, _ ->
+                    val fullName = etFullName.text.toString().trim()
+                    val username = etUsername.text.toString().trim()
+                    val license = etLicense.text.toString().trim().ifEmpty { null }
+                    val department = etDepartment.text.toString().trim().ifEmpty { null }
+                    val institution = etInstitution.text.toString().trim().ifEmpty { null }
+                    val phone = etPhone.text.toString().trim().ifEmpty { null }
+
+                    if (fullName.isEmpty() || username.isEmpty()) {
+                        Toast.makeText(this, "Name and username cannot be empty", Toast.LENGTH_SHORT).show()
+                        return@setPositiveButton
+                    }
+
+                    val request = UpdateProfileRequest(
+                        fullName = fullName,
+                        username = username,
+                        licenseNumber = license,
+                        department = department,
+                        institution = institution,
+                        phoneNumber = phone
+                    )
+
+                    lifecycleScope.launch {
+                        authRepository.updateProfile(request)
+                            .onSuccess { updatedProfile ->
+                                populateProfile(updatedProfile)
+                                Toast.makeText(this@ProfileActivity, "Profile updated successfully", Toast.LENGTH_SHORT).show()
+                            }
+                            .onFailure {
+                                Toast.makeText(this@ProfileActivity, it.message ?: "Failed to update profile", Toast.LENGTH_LONG).show()
+                            }
+                    }
+                }
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show()
         }
 
         btnLogOut.setOnClickListener {

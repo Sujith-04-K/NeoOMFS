@@ -60,6 +60,14 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(profile));
     }
 
+    @PutMapping("/me")
+    public ResponseEntity<ApiResponse<UserProfileResponse>> updateProfile(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @Valid @RequestBody UpdateProfileRequest request) {
+        UserProfileResponse profile = authService.updateProfile(userDetails.getUsername(), request);
+        return ResponseEntity.ok(ApiResponse.success("Profile updated successfully", profile));
+    }
+
     @PostMapping("/forgot-password")
     public ResponseEntity<ApiResponse<Void>> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
         authService.forgotPassword(request);

@@ -44,7 +44,7 @@ public class ReportController {
     private final com.simats.neoomfs.service.AuditLogService auditLogService;
 
     @PostMapping("/generate")
-    @PreAuthorize("hasAnyRole('ROLE_DOCTOR','ROLE_ADMIN','ROLE_FACULTY')")
+    @PreAuthorize("hasAnyRole('ROLE_DOCTOR','ROLE_ADMIN','ROLE_FACULTY','ROLE_STUDENT')")
     public ResponseEntity<ApiResponse<AssessmentReportResponse>> generateReport(
             @PathVariable("id") Long patientId,
             @AuthenticationPrincipal UserDetails userDetails) {

@@ -45,6 +45,11 @@ class MainActivity : AppCompatActivity() {
         val tvPriorityAlertsBadge = findViewById<TextView>(R.id.tvPriorityAlertsBadge)
         val layoutPriorityAlertsList = findViewById<LinearLayout>(R.id.layoutPriorityAlertsList)
         val layoutActiveCasesList = findViewById<LinearLayout>(R.id.layoutActiveCasesList)
+        val bannerReviewNotification = findViewById<LinearLayout>(R.id.bannerReviewNotification)
+        bannerReviewNotification.setOnClickListener {
+            val intent = Intent(this, PatientLogActivity::class.java)
+            startActivity(intent)
+        }
 
         // Find Shifting Bottom Navigation items
         val btnNavDashboard = findViewById<LinearLayout>(R.id.btnNavDashboard)
@@ -173,15 +178,14 @@ class MainActivity : AppCompatActivity() {
     ) {
         tvPatientsCount.text = patients.size.toString()
         tvPendingCount.text = patients.count {
-            it.assessmentStatus.equals("REVIEW", ignoreCase = true) ||
-                it.assessmentStatus.equals("PENDING", ignoreCase = true)
+            it.assessmentStatus.equals("PENDING_REVIEW", ignoreCase = true) ||
+                it.assessmentStatus.equals("DRAFT", ignoreCase = true)
         }.toString()
         tvCompletedCount.text = patients.count {
-            it.assessmentStatus.equals("FIT", ignoreCase = true) ||
-                it.assessmentStatus.equals("COMPLETED", ignoreCase = true)
+            it.assessmentStatus.equals("APPROVED", ignoreCase = true)
         }.toString()
         tvHighRiskCount.text = patients.count {
-            it.assessmentStatus.equals("CRITICAL", ignoreCase = true)
+            it.assessmentStatus.equals("NEEDS_REVISION", ignoreCase = true)
         }.toString()
     }
 
@@ -194,9 +198,8 @@ class MainActivity : AppCompatActivity() {
         container.removeAllViews()
 
         val alertPatients = patients.filter {
-            it.assessmentStatus.equals("CRITICAL", ignoreCase = true) ||
-                it.assessmentStatus.equals("REVIEW", ignoreCase = true) ||
-                it.assessmentStatus.equals("PENDING", ignoreCase = true)
+            it.assessmentStatus.equals("NEEDS_REVISION", ignoreCase = true) ||
+                it.assessmentStatus.equals("PENDING_REVIEW", ignoreCase = true)
         }.take(3)
 
         badgeView.text = if (alertPatients.isEmpty()) "0 ALERTS" else "${alertPatients.size} ALERTS"
@@ -404,23 +407,23 @@ class MainActivity : AppCompatActivity() {
         val doctorText = patient.createdByName?.takeIf { it.isNotBlank() } ?: patient.referringDoctor?.takeIf { it.isNotBlank() }
 
         return when {
-            patient.assessmentStatus.equals("CRITICAL", ignoreCase = true) -> {
-                val prefix = "Critical case flagged for ${procedureText.lowercase()}"
-                if (doctorText != null) "$prefix. Review urgently with Dr. $doctorText before proceeding." else "$prefix. Immediate clinical review is recommended before proceeding."
+            patient.assessmentStatus.equals("NEEDS_REVISION", ignoreCase = true) -> {
+                val prefix = "Case returned for revision (${procedureText.lowercase()})"
+                if (doctorText != null) "$prefix. Review revision notes from Dr. $doctorText before resubmitting." else "$prefix. Correct the flagged items and resubmit for faculty review."
             }
-            patient.assessmentStatus.equals("REVIEW", ignoreCase = true) || patient.assessmentStatus.equals("PENDING", ignoreCase = true) -> {
-                val prefix = "$statusText case awaiting final decision"
-                if (doctorText != null) "$prefix. Follow up with Dr. $doctorText and complete the remaining assessment steps." else "$prefix. Complete the remaining assessment steps and verify the case details."
+            patient.assessmentStatus.equals("PENDING_REVIEW", ignoreCase = true) -> {
+                val prefix = "Case pending faculty review"
+                if (doctorText != null) "$prefix. Submitted by Dr. $doctorText for supervising faculty sign-off." else "$prefix. Awaiting supervising faculty approval."
             }
-            else -> "$statusText case available for follow-up."
+            else -> "$statusText case — no action required at this time."
         }
     }
 
     private fun getStatusColor(status: String?): Int {
         return when {
-            status.equals("CRITICAL", ignoreCase = true) -> getColor(R.color.status_red)
-            status.equals("REVIEW", ignoreCase = true) || status.equals("PENDING", ignoreCase = true) -> getColor(R.color.accent_blue)
-            status.equals("FIT", ignoreCase = true) || status.equals("COMPLETED", ignoreCase = true) -> getColor(R.color.status_green)
+            status.equals("NEEDS_REVISION", ignoreCase = true) -> getColor(R.color.status_red)
+            status.equals("PENDING_REVIEW", ignoreCase = true) || status.equals("DRAFT", ignoreCase = true) -> getColor(R.color.status_orange)
+            status.equals("APPROVED", ignoreCase = true) -> getColor(R.color.status_green)
             else -> getColor(R.color.accent_blue)
         }
     }

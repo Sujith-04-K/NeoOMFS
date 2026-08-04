@@ -54,6 +54,22 @@ class OMFSWizardActivity : AppCompatActivity() {
         val spinnerWizardProcedure = findViewById<RelativeLayout>(R.id.spinnerWizardProcedure)
         val spinnerWizardAsa = findViewById<RelativeLayout>(R.id.spinnerWizardAsa)
 
+        // Why dropdown toggles
+        fun setupToggle(button: View, target: View) {
+            button.setOnClickListener {
+                if (target.visibility == View.VISIBLE) {
+                    target.visibility = View.GONE
+                } else {
+                    target.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        setupToggle(findViewById(R.id.btnWhyChiefComplaint), findViewById(R.id.layoutWhyChiefComplaint))
+        setupToggle(findViewById(R.id.btnWhyProcedure), findViewById(R.id.layoutWhyProcedure))
+        setupToggle(findViewById(R.id.btnWhyAsa), findViewById(R.id.layoutWhyAsa))
+        setupToggle(findViewById(R.id.btnWhyAllergies), findViewById(R.id.layoutWhyAllergies))
+
         // Step 1 Allergies
         val layoutWizardAllergyChips = findViewById<LinearLayout>(R.id.layoutWizardAllergyChips)
         val chipWizardPenicillin = findViewById<LinearLayout>(R.id.chipWizardPenicillin)

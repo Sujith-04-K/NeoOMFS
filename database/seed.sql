@@ -30,12 +30,12 @@ ON DUPLICATE KEY UPDATE user_id=user_id;
 -- 3. Insert 6 Diverse Clinical Patients
 INSERT INTO patients (id, mrn, full_name, age, date_of_birth, gender, blood_group, phone_number, address, emergency_contact, emergency_phone, procedure_type, referring_doctor, assessment_status, is_deleted, created_by_user_id, created_at)
 VALUES
-(1, 'MRN2026001', 'Rajesh Kumar', 24, '2002-04-12', 'Male', 'O+', '+919840123456', 'No. 12, Gandhi Street, Chennai', 'Karan Kumar', '+919840123457', 'Third Molar Extraction', 'Self', 'FIT', FALSE, 1, NOW()),
-(2, 'MRN2026002', 'Priya Patel', 42, '1984-08-22', 'Female', 'B+', '+919840223456', 'No. 45, Nehru Nagar, Coimbatore', 'Sanjay Patel', '+919840223457', 'Third Molar Extraction', 'Dr. Aris', 'CRITICAL', FALSE, 1, NOW()),
-(3, 'MRN2026003', 'Somnath Sen', 68, '1958-11-05', 'Male', 'A-', '+919840323456', 'No. 88, Lake View Road, Madurai', 'Rita Sen', '+919840323457', 'Multiple Extractions', 'Dr. Maxillofacial', 'REVIEW', FALSE, 1, NOW()),
-(4, 'MRN2026004', 'Lakshmi Bai', 28, '1998-01-30', 'Female', 'AB+', '+919840423456', 'No. 3, Temple St, Trichy', 'Ravi Bai', '+919840423457', 'Third Molar Extraction', 'Dr. Prema (OBG)', 'REVIEW', FALSE, 1, NOW()),
-(5, 'MRN2026005', 'George Varghese', 55, '1971-06-15', 'Male', 'O-', '+919840523456', 'No. 17, Church Rd, Cochin', 'Mini George', '+919840523457', 'Implant Placement', 'Dr. Thomas (Cardio)', 'CRITICAL', FALSE, 1, NOW()),
-(6, 'MRN2026006', 'Amit Mishra', 35, '1991-09-08', 'Male', 'A+', '+919840623456', 'No. 5, Park Street, Salem', 'Deepa Mishra', '+919840623457', 'Biopsy', 'Dr. Kumar (Hematology)', 'CRITICAL', FALSE, 1, NOW())
+(1, 'MRN2026001', 'Rajesh Kumar', 24, '2002-04-12', 'Male', 'O+', '+919840123456', 'No. 12, Gandhi Street, Chennai', 'Karan Kumar', '+919840123457', 'Third Molar Extraction', 'Self', 'APPROVED', FALSE, 1, NOW()),
+(2, 'MRN2026002', 'Priya Patel', 42, '1984-08-22', 'Female', 'B+', '+919840223456', 'No. 45, Nehru Nagar, Coimbatore', 'Sanjay Patel', '+919840223457', 'Third Molar Extraction', 'Dr. Aris', 'PENDING_REVIEW', FALSE, 1, NOW()),
+(3, 'MRN2026003', 'Somnath Sen', 68, '1958-11-05', 'Male', 'A-', '+919840323456', 'No. 88, Lake View Road, Madurai', 'Rita Sen', '+919840323457', 'Multiple Extractions', 'Dr. Maxillofacial', 'PENDING_REVIEW', FALSE, 1, NOW()),
+(4, 'MRN2026004', 'Lakshmi Bai', 28, '1998-01-30', 'Female', 'AB+', '+919840423456', 'No. 3, Temple St, Trichy', 'Ravi Bai', '+919840423457', 'Third Molar Extraction', 'Dr. Prema (OBG)', 'PENDING_REVIEW', FALSE, 1, NOW()),
+(5, 'MRN2026005', 'George Varghese', 55, '1971-06-15', 'Male', 'O-', '+919840523456', 'No. 17, Church Rd, Cochin', 'Mini George', '+919840523457', 'Implant Placement', 'Dr. Thomas (Cardio)', 'APPROVED', FALSE, 1, NOW()),
+(6, 'MRN2026006', 'Amit Mishra', 35, '1991-09-08', 'Male', 'A+', '+919840623456', 'No. 5, Park Street, Salem', 'Deepa Mishra', '+919840623457', 'Biopsy', 'Dr. Kumar (Hematology)', 'DRAFT', FALSE, 1, NOW())
 ON DUPLICATE KEY UPDATE id=id;
 
 -- 4. Step 2: Patient Vitals (Fahrenheit temperatures will be normalized to Celsius by VitalsServiceImpl)

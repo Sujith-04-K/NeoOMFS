@@ -45,7 +45,7 @@ public class ExportServiceTest {
                 .bloodGroup("O+")
                 .phoneNumber("1234567890")
                 .referringDoctor("Dr. Smith")
-                .assessmentStatus(Patient.AssessmentStatus.FIT)
+                .assessmentStatus(Patient.AssessmentStatus.APPROVED)
                 .build();
         patient.setId(1L);
 

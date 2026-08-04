@@ -120,6 +120,7 @@
                 android:layout_marginBottom="12dp">
 
                 <RelativeLayout
+                    android:id="@+id/btnWhyBp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -127,7 +128,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:text="Blood Pressure ▼"
+                        android:text="Blood Pressure ⓘ"
                         android:textColor="@color/bg_dark_blue"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -159,6 +160,34 @@
                             android:textStyle="bold" />
                     </LinearLayout>
                 </RelativeLayout>
+
+                <!-- Why dropdown info -->
+                <LinearLayout
+                    android:id="@+id/layoutWhyBp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#F8FAFC"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Why monitor Blood Pressure preoperatively?"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Elevated blood pressure increases the risk of intraoperative hemorrhage, cardiovascular events, and stroke. Severe hypertension (>180/110 mmHg) is a contraindication for elective OMFS procedures."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -236,6 +265,7 @@
                 android:layout_marginBottom="12dp">
 
                 <RelativeLayout
+                    android:id="@+id/btnWhyPulse"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -243,7 +273,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:text="Pulse Rate ▼"
+                        android:text="Pulse Rate ⓘ"
                         android:textColor="@color/bg_dark_blue"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -274,6 +304,34 @@
                             android:textStyle="bold" />
                     </LinearLayout>
                 </RelativeLayout>
+
+                <!-- Why dropdown info -->
+                <LinearLayout
+                    android:id="@+id/layoutWhyPulse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#F8FAFC"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Why check resting Pulse Rate?"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Abnormal resting heart rate (tachycardia >100 bpm or bradycardia &lt;60 bpm) can indicate cardiac arrhythmia, high anxiety, or systemic compromise requiring evaluation prior to anesthesia."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -307,6 +365,7 @@
                 android:layout_marginBottom="12dp">
 
                 <RelativeLayout
+                    android:id="@+id/btnWhyTemp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -314,7 +373,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:text="Temperature ▼"
+                        android:text="Temperature ⓘ"
                         android:textColor="@color/bg_dark_blue"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -345,6 +404,34 @@
                             android:textStyle="bold" />
                     </LinearLayout>
                 </RelativeLayout>
+
+                <!-- Why dropdown info -->
+                <LinearLayout
+                    android:id="@+id/layoutWhyTemp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#F8FAFC"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Why check body Temperature?"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Fever (>99.5°F) indicates systemic infection, bacteremia, or inflammation, which may require delaying elective surgery or initiating preoperative antibiotic coverage."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -378,6 +465,7 @@
                 android:layout_marginBottom="12dp">
 
                 <RelativeLayout
+                    android:id="@+id/btnWhyResp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -385,7 +473,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:text="Respiratory Rate ▼"
+                        android:text="Respiratory Rate ⓘ"
                         android:textColor="@color/bg_dark_blue"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -416,6 +504,34 @@
                             android:textStyle="bold" />
                     </LinearLayout>
                 </RelativeLayout>
+
+                <!-- Why dropdown info -->
+                <LinearLayout
+                    android:id="@+id/layoutWhyResp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#F8FAFC"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Why measure Respiratory Rate?"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Baseline respiratory rate is crucial for detecting respiratory distress and monitoring respiratory depression when administering sedation or local anesthetics."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -449,6 +565,7 @@
                 android:layout_marginBottom="12dp">
 
                 <RelativeLayout
+                    android:id="@+id/btnWhySpo2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -456,7 +573,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:text="SpO₂ Level ▼"
+                        android:text="SpO₂ Level ⓘ"
                         android:textColor="@color/bg_dark_blue"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -487,6 +604,34 @@
                             android:textStyle="bold" />
                     </LinearLayout>
                 </RelativeLayout>
+
+                <!-- Why dropdown info -->
+                <LinearLayout
+                    android:id="@+id/layoutWhySpo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#F8FAFC"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Why measure Blood Oxygen Saturation (SpO₂)?"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="SpO₂ evaluates baseline pulmonary function and tissue oxygenation. Hypoxia (&lt;95%) increases perioperative vulnerability during surgical sedation or anesthesia."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -520,6 +665,7 @@
                 android:layout_marginBottom="24dp">
 
                 <RelativeLayout
+                    android:id="@+id/btnWhyBmi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -527,7 +673,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:text="Weight &amp; Height ▼"
+                        android:text="Weight &amp; Height ⓘ"
                         android:textColor="@color/bg_dark_blue"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -558,6 +704,34 @@
                             android:textStyle="bold" />
                     </LinearLayout>
                 </RelativeLayout>
+
+                <!-- Why dropdown info -->
+                <LinearLayout
+                    android:id="@+id/layoutWhyBmi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#F8FAFC"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Why measure Weight &amp; Height?"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Accurate weight and height are essential to calculate BMI and determine maximum safe anesthetic drug dosages (e.g., mg/kg for lidocaine, epinephrine, and antibiotics)."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

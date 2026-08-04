@@ -117,6 +117,21 @@ class OMFSWizardStep3Activity : AppCompatActivity() {
         val thumb5 = findViewById<FrameLayout>(R.id.thumb5)
         val thumb6 = findViewById<FrameLayout>(R.id.thumb6)
 
+        // Why dropdown toggles
+        fun setupToggle(button: View, target: View) {
+            button.setOnClickListener {
+                if (target.visibility == View.VISIBLE) {
+                    target.visibility = View.GONE
+                } else {
+                    target.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        setupToggle(findViewById(R.id.btnWhyIopa), findViewById(R.id.layoutWhyIopa))
+        setupToggle(findViewById(R.id.btnWhyOpg), findViewById(R.id.layoutWhyOpg))
+        setupToggle(findViewById(R.id.btnWhyCbct), findViewById(R.id.layoutWhyCbct))
+
         // Checkbox listeners
         cbIopa.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {

@@ -121,6 +121,9 @@
                 android:layout_marginBottom="12dp">
 
                 <RelativeLayout
+                    android:id="@+id/btnWhyIopa"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -129,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_toStartOf="@id/cbIopa"
-                        android:text="IOPA (Intraoral Periapical Radiograph)"
+                        android:text="IOPA (Intraoral Periapical Radiograph) ⓘ"
                         android:textColor="@color/bg_dark_blue"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -142,6 +145,34 @@
                         android:checked="true"
                         android:buttonTint="@color/accent_blue" />
                 </RelativeLayout>
+
+                <!-- Why dropdown info -->
+                <LinearLayout
+                    android:id="@+id/layoutWhyIopa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#F8FAFC"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Why is this required preoperatively?"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="An Intraoral Periapical Radiograph (IOPA) provides high-resolution detail of tooth root morphology, surrounding alveolar bone, periapical pathology, and proximity to anatomical structures."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <!-- Upload Container -->
                 <LinearLayout
@@ -188,6 +219,9 @@
                 android:layout_marginBottom="12dp">
 
                 <RelativeLayout
+                    android:id="@+id/btnWhyOpg"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -196,7 +230,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_toStartOf="@id/cbOpg"
-                        android:text="OPG (Orthopantomogram)"
+                        android:text="OPG (Orthopantomogram) ⓘ"
                         android:textColor="@color/bg_dark_blue"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -209,6 +243,34 @@
                         android:checked="true"
                         android:buttonTint="@color/accent_blue" />
                 </RelativeLayout>
+
+                <!-- Why dropdown info -->
+                <LinearLayout
+                    android:id="@+id/layoutWhyOpg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#F8FAFC"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Why is this required preoperatively?"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="An Orthopantomogram (OPG) gives a comprehensive panoramic view of the maxillofacial skeleton, bilateral condyles, sinuses, and full dentition to evaluate overall bony pathology and jaw anatomy."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <!-- Upload Container -->
                 <LinearLayout
@@ -255,6 +317,9 @@
                 android:layout_marginBottom="24dp">
 
                 <RelativeLayout
+                    android:id="@+id/btnWhyCbct"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -263,7 +328,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_toStartOf="@id/cbCbct"
-                        android:text="CBCT Scan (Optional / High Difficulty)"
+                        android:text="CBCT Scan (Optional / High Difficulty) ⓘ"
                         android:textColor="@color/bg_dark_blue"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -276,6 +341,34 @@
                         android:checked="false"
                         android:buttonTint="@color/accent_blue" />
                 </RelativeLayout>
+
+                <!-- Why dropdown info -->
+                <LinearLayout
+                    android:id="@+id/layoutWhyCbct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#F8FAFC"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Why recommend a CBCT scan?"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="A Cone Beam Computed Tomography (CBCT) scan provides 3D volumetric imaging essential for complex surgical impactions, nerve proximity assessment, and pathology localization when 2D radiographs are insufficient."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <!-- Upload Container (Hidden by default, shown when CBCT checked) -->
                 <LinearLayout

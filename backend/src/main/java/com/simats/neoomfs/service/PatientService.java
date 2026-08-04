@@ -7,16 +7,19 @@ import com.simats.neoomfs.dto.response.TimelineEventResponse;
 
 import java.util.List;
 
+import com.simats.neoomfs.dto.request.ReviewStatusRequest;
+
 public interface PatientService {
     PatientResponse createPatient(PatientRequest request, String doctorEmail);
     PatientResponse getPatient(Long id);
     PatientResponse getPatientByMrn(String mrn);
     PatientResponse updatePatient(Long id, PatientRequest request);
+    PatientResponse updateReviewStatus(Long id, ReviewStatusRequest request, String facultyEmail);
     void deletePatient(Long id);
     PagedResponse<PatientResponse> searchPatients(String search, String status, Long doctorId,
                                                    int page, int size);
     List<TimelineEventResponse> getPatientTimeline(Long patientId);
-    
+
     PagedResponse<PatientResponse> advancedSearch(
             String mrn, String name, String phone, String doctor,
             String status, String risk, String gender, Integer age,

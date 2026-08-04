@@ -26,4 +26,5 @@
     <color name="status_green">#16A34A</color>
     <color name="status_red">#DC2626</color>
     <color name="status_blue">#2563EB</color>
+    <color name="status_orange">#D97706</color>
 </resources>

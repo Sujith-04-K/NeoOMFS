@@ -1,0 +1,22 @@
+.pending-alert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--amber-bg);
+  border: 1px solid rgba(245,158,11,.3);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  font-size: .875rem;
+  color: var(--text-primary);
+}
+.pending-alert-icon { font-size: 1.2rem; color: var(--amber); flex-shrink: 0; }
+.pending-alert > div { flex: 1; }
+.pending-alert strong { color: var(--amber); }
+
+.dashboard-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}

@@ -149,6 +149,27 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public UserProfileResponse updateProfile(String email, UpdateProfileRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+
+        if (!user.getUsername().equalsIgnoreCase(request.getUsername()) && userRepository.existsByUsername(request.getUsername())) {
+            throw new DuplicateResourceException("Username already taken: " + request.getUsername());
+        }
+
+        user.setFullName(request.getFullName().trim());
+        user.setUsername(request.getUsername().trim());
+        user.setLicenseNumber(trimToNull(request.getLicenseNumber()));
+        user.setDepartment(trimToNull(request.getDepartment()));
+        user.setInstitution(trimToNull(request.getInstitution()));
+        user.setPhoneNumber(trimToNull(request.getPhoneNumber()));
+
+        user = userRepository.save(user);
+        auditLogService.log(user.getId(), user.getUsername(), null, "AUTH", "UPDATE_PROFILE", "User updated profile", "User", user.getId());
+        return toProfileResponse(user);
+    }
+
+    @Override
     public void forgotPassword(ForgotPasswordRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", request.getEmail()));
@@ -235,6 +256,14 @@ public class AuthServiceImpl implements AuthService {
                 .lastLogin(user.getLastLogin())
                 .createdAt(user.getCreatedAt())
                 .build();
+    }
+
+    private String trimToNull(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
     }
 
     private Role.RoleName parseRole(String role) {

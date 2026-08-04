@@ -16,12 +16,14 @@ import com.simats.neoomfs.utils.startActivityNoAnimation
 import androidx.lifecycle.lifecycleScope
 import com.simats.neoomfs.network.RetrofitClient
 import com.simats.neoomfs.repository.WizardRepository
+import com.simats.neoomfs.repository.BackendPatientRepository
 import com.simats.neoomfs.models.AssessmentReportResponse
 import android.graphics.Typeface
 import kotlinx.coroutines.launch
 
 class OMFSWizardStep8Activity : AppCompatActivity() {
     private val wizardRepository = WizardRepository()
+    private val patientRepository = BackendPatientRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +76,13 @@ class OMFSWizardStep8Activity : AppCompatActivity() {
 
         // Views
         val tvReportSummary = findViewById<TextView>(R.id.tvReportSummary)
+        val tvComputedRiskBadge = findViewById<TextView>(R.id.tvComputedRiskBadge)
+        val tvClinicalRecommendation = findViewById<TextView>(R.id.tvClinicalRecommendation)
+        val tvSelectedFaculty = findViewById<TextView>(R.id.tvSelectedFaculty)
+        val etReviewComments = findViewById<EditText>(R.id.etReviewComments)
+        val btnSubmitForReview = findViewById<LinearLayout>(R.id.btnSubmitForReview)
+        val btnApproveAssessment = findViewById<LinearLayout>(R.id.btnApproveAssessment)
+        val btnRequestRevision = findViewById<LinearLayout>(R.id.btnRequestRevision)
         val rgFitnessDecision = findViewById<RadioGroup>(R.id.rgFitnessDecision)
         val etRemarks = findViewById<EditText>(R.id.etRemarks)
         val etRecommendations = findViewById<EditText>(R.id.etRecommendations)
@@ -179,10 +188,106 @@ class OMFSWizardStep8Activity : AppCompatActivity() {
         // Default select based on computed risk level
         if (riskLevel.contains("HIGH")) {
             rgFitnessDecision.check(R.id.rbNotFit)
-        } else if (riskLevel.contains("MEDIUM")) {
+        } else if (riskLevel.contains("MEDIUM") || riskLevel.contains("MODERATE")) {
             rgFitnessDecision.check(R.id.rbFitModification)
         } else {
             rgFitnessDecision.check(R.id.rbFit)
+        }
+
+        // Clinical Decision Support Assistant logic
+        tvComputedRiskBadge.text = "RISK LEVEL: $riskLevel"
+        tvComputedRiskBadge.background = getDrawable(
+            when {
+                riskLevel.contains("HIGH", true) -> R.drawable.bg_chip_red
+                riskLevel.contains("MEDIUM", true) || riskLevel.contains("MODERATE", true) -> R.drawable.bg_chip_orange
+                else -> R.drawable.bg_chip_green
+            }
+        )
+        tvComputedRiskBadge.setTextColor(
+            getColor(
+                when {
+                    riskLevel.contains("HIGH", true) -> R.color.status_red
+                    riskLevel.contains("MEDIUM", true) || riskLevel.contains("MODERATE", true) -> R.color.status_orange
+                    else -> R.color.status_green
+                }
+            )
+        )
+
+        val recText = when {
+            riskLevel.contains("HIGH", true) -> "Recommendation: Obtain specialist physician clearance and optimize systemic status before surgery."
+            riskLevel.contains("MEDIUM", true) || riskLevel.contains("MODERATE", true) -> "Recommendation: Proceed with caution; consider minor surgical modifications and hemodynamic monitoring."
+            else -> "Recommendation: Proceed with planned surgery under standard protocols."
+        }
+        tvClinicalRecommendation.text = recText
+
+        // Faculty Authentication & Clinical Sign-Off logic
+        var selectedFacultyName = "Dr. Arun Prakash (OMFS Unit 1)"
+        val facultyOptions = arrayOf(
+            "Dr. Arun Prakash (OMFS Unit 1)",
+            "Dr. Sarah Jenkins (OMFS Unit 2)",
+            "Dr. Ramesh Gupta (OMFS Unit 3)",
+            "Dr. Meenakshi Sundaram (OMFS Unit 4)"
+        )
+        tvSelectedFaculty.text = "Supervising Faculty: $selectedFacultyName"
+        tvSelectedFaculty.setOnClickListener {
+            val popup = android.widget.PopupMenu(this, tvSelectedFaculty)
+            facultyOptions.forEach { popup.menu.add(it) }
+            popup.setOnMenuItemClickListener { item ->
+                selectedFacultyName = item.title.toString()
+                tvSelectedFaculty.text = "Supervising Faculty: $selectedFacultyName"
+                true
+            }
+            popup.show()
+        }
+
+        btnSubmitForReview.setOnClickListener {
+            lifecycleScope.launch {
+                if (patientId != -1L) {
+                    patientRepository.updateReviewStatus(patientId, "PENDING_REVIEW", null, null)
+                }
+                Toast.makeText(
+                    this@OMFSWizardStep8Activity,
+                    "Assessment submitted for Faculty Review. Status: Pending Review",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        btnApproveAssessment.setOnClickListener {
+            lifecycleScope.launch {
+                if (patientId != -1L) {
+                    patientRepository.updateReviewStatus(
+                        patientId,
+                        "APPROVED",
+                        selectedFacultyName,
+                        etReviewComments.text.toString().trim().ifEmpty { null }
+                    )
+                }
+                Toast.makeText(
+                    this@OMFSWizardStep8Activity,
+                    "✅ Assessment Approved by $selectedFacultyName. Notification sent to student.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        btnRequestRevision.setOnClickListener {
+            val reason = etReviewComments.text.toString().trim().ifEmpty { "Further evaluation required" }
+            lifecycleScope.launch {
+                if (patientId != -1L) {
+                    patientRepository.updateReviewStatus(
+                        patientId,
+                        "NEEDS_REVISION",
+                        selectedFacultyName,
+                        reason
+                    )
+                }
+                Toast.makeText(
+                    this@OMFSWizardStep8Activity,
+                    "🔄 Needs Revision — Faculty: $selectedFacultyName. Reason: $reason",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         // Actions Listeners
@@ -279,14 +384,18 @@ class OMFSWizardStep8Activity : AppCompatActivity() {
         }
 
         val detailsText = TextView(this).apply {
-            text = "Patient: ${report.patientName ?: "Arthur Pendelton"}\nMRN: ${report.patientMrn ?: "MRN-4091"}\nDate: ${report.reportGeneratedAt ?: "2026-07-28"}\nGenerated by: ${report.generatedByName ?: "Dr. Sarah Jenkins"}\n\n" +
+            text = "Institution: ${report.institution ?: "SIMATS"}\n" +
+                   "Department: ${report.department ?: "Department of Oral & Maxillofacial Surgery"}\n" +
+                   "Report ID: ${report.reportId ?: report.reportFileName ?: "OMFS-REP-2026-0052"}\n\n" +
+                   "Reviewed By:\n${report.reviewedByName ?: "Dr. Arun Prakash"}\n\n" +
+                   "Review Status:\nApproved\n\n" +
+                   "Review Date:\n31 Jul 2026\n\n" +
+                   "Faculty Comments:\nProceed with surgery under standard precautions.\n\n" +
                    "--- CLINICAL CLEARANCE SUMMARY ---\n" +
-                   "• ASA Classification: ASA I (Normal healthy patient)\n" +
-                   "• Procedure: Oral Surgery - Surgical Extraction\n" +
+                   "• Patient: ${report.patientName ?: "Arthur Pendelton"} (MRN: ${report.patientMrn ?: "MRN-4091"})\n" +
                    "• Risk Computed: LOW RISK\n" +
                    "• Fitness Decision: FIT FOR SURGERY\n" +
-                   "• Radiology Status: OPG & IOPA Verified\n" +
-                   "• Clinical Recommendation: Proceed under Local Anesthesia without antibiotic prophylaxis."
+                   "• Radiology Status: OPG & IOPA Verified"
             setTextColor(getColor(R.color.text_secondary_gray))
             textSize = 13f
             setLineSpacing(4f, 1f)

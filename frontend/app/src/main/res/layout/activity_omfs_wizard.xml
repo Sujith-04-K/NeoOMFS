@@ -231,14 +231,50 @@
                 </LinearLayout>
 
                 <!-- Chief Complaint Input -->
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/btnWhyChiefComplaint"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="CHIEF COMPLAINT"
-                    android:textColor="@color/text_secondary_gray"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CHIEF COMPLAINT ⓘ"
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <!-- Why dropdown info -->
+                <LinearLayout
+                    android:id="@+id/layoutWhyChiefComplaint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="#F8FAFC"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Why document the Chief Complaint?"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Recording the patient's primary symptoms and duration in their own words establishes the clinical priority and baseline for surgical planning."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/etChiefComplaint"
@@ -256,14 +292,50 @@
                     android:textSize="14sp" />
 
                 <!-- Surgical Procedure Dropdown -->
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/btnWhyProcedure"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="SURGICAL PROCEDURE"
-                    android:textColor="@color/text_secondary_gray"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SURGICAL PROCEDURE ⓘ"
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <!-- Why dropdown info -->
+                <LinearLayout
+                    android:id="@+id/layoutWhyProcedure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="#F8FAFC"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Why select the Surgical Procedure?"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="The planned surgical intervention determines the required level of systemic evaluation, anesthesia type, and postoperative care protocols."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/spinnerWizardProcedure"
@@ -296,14 +368,50 @@
                 </RelativeLayout>
 
                 <!-- ASA Classification Dropdown -->
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/btnWhyAsa"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="ASA CLASSIFICATION"
-                    android:textColor="@color/text_secondary_gray"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ASA CLASSIFICATION ⓘ"
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <!-- Why dropdown info -->
+                <LinearLayout
+                    android:id="@+id/layoutWhyAsa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="#F8FAFC"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Why determine the ASA Physical Status Classification?"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="The American Society of Anesthesiologists classification assesses preoperative systemic health and predicts operative risk and perioperative complications."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/spinnerWizardAsa"
@@ -351,14 +459,50 @@
                 </RelativeLayout>
 
                 <!-- Known Allergies Section -->
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/btnWhyAllergies"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="KNOWN ALLERGIES"
-                    android:textColor="@color/text_secondary_gray"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="KNOWN ALLERGIES ⓘ"
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <!-- Why dropdown info -->
+                <LinearLayout
+                    android:id="@+id/layoutWhyAllergies"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="#F8FAFC"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Why screen for Known Allergies?"
+                        android:textColor="@color/accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Identifying allergies to antibiotics (like Penicillin), analgesics, local anesthetics, or materials (like Latex) prevents life-threatening intraoperative anaphylaxis and adverse drug reactions."
+                        android:textColor="@color/text_secondary_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <!-- Allergy Container -->
                 <LinearLayout

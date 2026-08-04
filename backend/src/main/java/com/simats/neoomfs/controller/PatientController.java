@@ -1,6 +1,7 @@
 package com.simats.neoomfs.controller;
 
 import com.simats.neoomfs.dto.request.PatientRequest;
+import com.simats.neoomfs.dto.request.ReviewStatusRequest;
 import com.simats.neoomfs.dto.response.ApiResponse;
 import com.simats.neoomfs.dto.response.PagedResponse;
 import com.simats.neoomfs.dto.response.PatientResponse;
@@ -25,7 +26,7 @@ public class PatientController {
     private final PatientService patientService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ROLE_DOCTOR','ROLE_ADMIN','ROLE_FACULTY')")
+    @PreAuthorize("hasAnyRole('ROLE_DOCTOR','ROLE_ADMIN','ROLE_FACULTY','ROLE_STUDENT')")
     public ResponseEntity<ApiResponse<PatientResponse>> createPatient(
             @Valid @RequestBody PatientRequest request,
             @AuthenticationPrincipal UserDetails userDetails) {
@@ -45,7 +46,7 @@ public class PatientController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_DOCTOR','ROLE_ADMIN','ROLE_FACULTY')")
+    @PreAuthorize("hasAnyRole('ROLE_DOCTOR','ROLE_ADMIN','ROLE_FACULTY','ROLE_STUDENT')")
     public ResponseEntity<ApiResponse<PatientResponse>> updatePatient(
             @PathVariable Long id,
             @Valid @RequestBody PatientRequest request) {
@@ -95,5 +96,15 @@ public class PatientController {
             @PathVariable("id") Long id) {
         List<TimelineEventResponse> timeline = patientService.getPatientTimeline(id);
         return ResponseEntity.ok(ApiResponse.success("Patient timeline retrieved successfully", timeline));
+    }
+
+    @PatchMapping("/{id}/review-status")
+    @PreAuthorize("hasAnyRole('ROLE_FACULTY','ROLE_ADMIN')")
+    public ResponseEntity<ApiResponse<PatientResponse>> updateReviewStatus(
+            @PathVariable Long id,
+            @Valid @RequestBody ReviewStatusRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        PatientResponse response = patientService.updateReviewStatus(id, request, userDetails.getUsername());
+        return ResponseEntity.ok(ApiResponse.success("Assessment review status updated successfully", response));
     }
 }

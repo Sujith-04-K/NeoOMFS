@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Patient entity – core demographics for a preoperative assessment candidate.
@@ -59,7 +60,7 @@ public class Patient extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "assessment_status", length = 20)
     @Builder.Default
-    private AssessmentStatus assessmentStatus = AssessmentStatus.PENDING;
+    private AssessmentStatus assessmentStatus = AssessmentStatus.DRAFT;
 
     @Column(name = "is_deleted", nullable = false)
     @Builder.Default
@@ -69,7 +70,26 @@ public class Patient extends BaseEntity {
     @JoinColumn(name = "created_by_user_id")
     private User createdBy;
 
+    // --- Faculty Review Fields ---
+
+    @Column(name = "submitted_by", length = 150)
+    private String submittedBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewed_by_user_id")
+    private User reviewedBy;
+
+    @Column(name = "review_comments", length = 1000)
+    private String reviewComments;
+
+    @Column(name = "approved_at")
+    private LocalDateTime approvedAt;
+
     public enum AssessmentStatus {
-        PENDING, IN_PROGRESS, FIT, REVIEW, CRITICAL, COMPLETED
+        DRAFT,
+        PENDING_REVIEW,
+        APPROVED,
+        NEEDS_REVISION
     }
 }
+

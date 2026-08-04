@@ -45,6 +45,10 @@ public class PatientMapper {
                 .createdByName(patient.getCreatedBy() != null ? patient.getCreatedBy().getFullName() : null)
                 .createdAt(patient.getCreatedAt())
                 .updatedAt(patient.getUpdatedAt())
+                .submittedBy(patient.getSubmittedBy())
+                .reviewedByName(patient.getReviewedBy() != null ? patient.getReviewedBy().getFullName() : null)
+                .reviewComments(patient.getReviewComments())
+                .approvedAt(patient.getApprovedAt())
                 .build();
     }
 }

@@ -8,6 +8,7 @@ import com.simats.neoomfs.models.ForgotPasswordRequest
 import com.simats.neoomfs.models.LoginRequest
 import com.simats.neoomfs.models.RegisterRequest
 import com.simats.neoomfs.models.ResetPasswordRequest
+import com.simats.neoomfs.models.UpdateProfileRequest
 import com.simats.neoomfs.models.UserProfileResponse
 import com.simats.neoomfs.network.RetrofitClient
 import com.simats.neoomfs.session.AuthSessionManager
@@ -123,6 +124,43 @@ class AuthRepository(context: Context) {
                 Result.failure(e)
             }
         }
+    }
+
+    suspend fun updateProfile(request: UpdateProfileRequest): Result<UserProfileResponse> {
+        return try {
+            val response = authApi.updateProfile(request)
+            val body = response.body()
+            if (response.isSuccessful && body?.data != null) {
+                val existingRefresh = sessionManager.getRefreshToken().orEmpty()
+                sessionManager.saveSession(sessionManager.getAccessToken().orEmpty(), existingRefresh, body.data)
+                Result.success(body.data)
+            } else {
+                Result.failure(Exception(extractErrorMessage(response.errorBody()?.string(), body?.message ?: "Unable to update profile")))
+            }
+        } catch (e: Exception) {
+            if (isNetworkError(e)) {
+                updateProfileOffline(request)
+            } else {
+                Result.failure(e)
+            }
+        }
+    }
+
+    private fun updateProfileOffline(request: UpdateProfileRequest): Result<UserProfileResponse> {
+        val currentUser = sessionManager.getUser() ?: createDemoAuthResponse("doctor@neoomfs.com").user
+        val updatedUser = currentUser.copy(
+            fullName = request.fullName.ifBlank { currentUser.fullName },
+            username = request.username.ifBlank { currentUser.username },
+            licenseNumber = request.licenseNumber ?: currentUser.licenseNumber,
+            department = request.department ?: currentUser.department,
+            institution = request.institution ?: currentUser.institution,
+            phoneNumber = request.phoneNumber ?: currentUser.phoneNumber
+        )
+        val cleanEmail = updatedUser.email.trim().lowercase()
+        prefs.edit().putString("name_$cleanEmail", updatedUser.fullName).apply()
+        val existingRefresh = sessionManager.getRefreshToken().orEmpty()
+        sessionManager.saveSession(sessionManager.getAccessToken().orEmpty(), existingRefresh, updatedUser)
+        return Result.success(updatedUser)
     }
 
     private fun isNetworkError(e: Throwable): Boolean {

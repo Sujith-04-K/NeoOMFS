@@ -22,6 +22,9 @@ public class PasswordResetEmailService {
     @Value("${app.mail.enabled:false}")
     private boolean mailEnabled;
 
+    @Value("${app.mail.dev-mode:true}")
+    private boolean devMode;
+
     private static final Pattern WHITESPACE = Pattern.compile("\\s+");
 
     @Value("${app.mail.from:no-reply@neoomfs.local}")
@@ -41,7 +44,8 @@ public class PasswordResetEmailService {
         String normalizedPassword = normalizeAppPassword(smtpPassword);
         boolean passwordLooksPresent = !normalizedPassword.isBlank();
         boolean passwordHadWhitespace = !smtpPassword.equals(normalizedPassword);
-        log.info("Password reset mail enabled: {} | from: {} | smtp user configured: {} | smtp password present: {} | smtp password had whitespace: {}",
+        log.info("Password reset mail devMode: {} | enabled: {} | from: {} | smtp user configured: {} | smtp password present: {} | smtp password had whitespace: {}",
+                devMode,
                 mailEnabled,
                 fromEmail,
                 !smtpUsername.isBlank(),
@@ -50,15 +54,16 @@ public class PasswordResetEmailService {
     }
 
     public void sendPasswordResetEmail(String toEmail, String fullName, String otp) {
-        if (!mailEnabled) {
-            throw new MailDeliveryException(
-                    "Password reset email is disabled. Set app.mail.enabled=true and configure MAIL_USERNAME / MAIL_PASSWORD."
-            );
-        }
-
         String normalizedPassword = normalizeAppPassword(smtpPassword);
-        if (smtpUsername.isBlank() || normalizedPassword.isBlank()) {
-            throw new MailDeliveryException("SMTP is enabled but credentials are incomplete. Configure spring.mail.username and spring.mail.password.");
+        if (devMode || !mailEnabled || smtpUsername.isBlank() || normalizedPassword.isBlank()) {
+            log.info("==========================================================");
+            log.info(" [DEV/TEST MODE] Password Reset Email Simulation");
+            log.info(" To: {} ({})", toEmail, fullName);
+            log.info(" Subject: Neo OMFS Password Reset OTP");
+            log.info(" OTP Code: {}", otp);
+            log.info(" (Use this 6-digit OTP code to reset your password)");
+            log.info("==========================================================");
+            return;
         }
 
         if (!smtpPassword.equals(normalizedPassword)) {

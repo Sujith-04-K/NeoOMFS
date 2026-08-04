@@ -1,0 +1,79 @@
+.detail-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.detail-name { font-size: 1.5rem; font-weight: 800; color: var(--text-primary); }
+.detail-meta { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+.detail-meta code { color: var(--accent); font-size: .85rem; }
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 1024px) { .detail-grid { grid-template-columns: 1fr; } }
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-label {
+  font-size: .75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.info-value { font-size: .875rem; color: var(--text-primary); text-align: right; }
+
+/* Timeline */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.timeline-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  position: relative;
+}
+.timeline-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 24px;
+  width: 2px;
+  height: calc(100% - 12px);
+  background: var(--border);
+}
+.timeline-dot {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+  margin-top: 2px;
+  z-index: 1;
+}
+.timeline-step.active .timeline-dot { border-color: var(--accent); background: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.timeline-step.done   .timeline-dot { border-color: var(--green);  background: var(--green); }
+.timeline-label { font-size: .875rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 4px; }
+.timeline-step.active .timeline-label { color: var(--text-primary); font-weight: 600; }
+
+.review-comment-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-top: 10px;
+}
+.review-comment-box p { font-size: .875rem; color: var(--text-secondary); line-height: 1.6; }
+
+.action-card { border: 1px solid var(--border-light); }

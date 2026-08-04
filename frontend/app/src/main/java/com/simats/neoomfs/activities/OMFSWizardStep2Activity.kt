@@ -67,6 +67,24 @@ class OMFSWizardStep2Activity : AppCompatActivity() {
         val dotBmi = findViewById<View>(R.id.dotBmi)
         val tvBmiStatus = findViewById<TextView>(R.id.tvBmiStatus)
 
+        // Why dropdown toggles
+        fun setupToggle(button: View, target: View) {
+            button.setOnClickListener {
+                if (target.visibility == View.VISIBLE) {
+                    target.visibility = View.GONE
+                } else {
+                    target.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        setupToggle(findViewById(R.id.btnWhyBp), findViewById(R.id.layoutWhyBp))
+        setupToggle(findViewById(R.id.btnWhyPulse), findViewById(R.id.layoutWhyPulse))
+        setupToggle(findViewById(R.id.btnWhyTemp), findViewById(R.id.layoutWhyTemp))
+        setupToggle(findViewById(R.id.btnWhyResp), findViewById(R.id.layoutWhyResp))
+        setupToggle(findViewById(R.id.btnWhySpo2), findViewById(R.id.layoutWhySpo2))
+        setupToggle(findViewById(R.id.btnWhyBmi), findViewById(R.id.layoutWhyBmi))
+
         // TextWatcher helpers
         fun setVitalsCheck(editText: EditText, checkFunc: () -> Boolean, statusDot: View, statusText: TextView) {
             editText.addTextChangedListener(object : TextWatcher {

@@ -63,7 +63,7 @@ public class PatientServiceImpl implements PatientService {
                 .procedureType(request.getProcedureType())
                 .referringDoctor(request.getReferringDoctor())
                 .createdBy(doctor)
-                .assessmentStatus(Patient.AssessmentStatus.PENDING)
+                .assessmentStatus(Patient.AssessmentStatus.DRAFT)
                 .build();
 
         Patient saved = patientRepository.save(patient);
@@ -100,11 +100,49 @@ public class PatientServiceImpl implements PatientService {
         patient.setProcedureType(request.getProcedureType());
         patient.setReferringDoctor(request.getReferringDoctor());
         Patient saved = patientRepository.save(patient);
-        
+
         User currentUser = getCurrentUser();
         Long userId = currentUser != null ? currentUser.getId() : null;
         String username = currentUser != null ? currentUser.getUsername() : "SYSTEM";
         auditLogService.log(userId, username, saved.getId(), "PATIENT", "UPDATE", "Updated patient record for MRN: " + saved.getMrn(), "Patient", saved.getId());
+        return toResponse(saved);
+    }
+
+    @Override
+    public PatientResponse updateReviewStatus(Long id, com.simats.neoomfs.dto.request.ReviewStatusRequest request, String facultyEmail) {
+        Patient patient = findActivePatient(id);
+
+        Patient.AssessmentStatus newStatus;
+        try {
+            newStatus = Patient.AssessmentStatus.valueOf(request.getStatus().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new com.simats.neoomfs.exception.ResourceNotFoundException("AssessmentStatus", "value", request.getStatus());
+        }
+
+        User faculty = userRepository.findByEmail(facultyEmail).orElse(null);
+
+        patient.setAssessmentStatus(newStatus);
+        patient.setReviewedBy(faculty);
+        patient.setReviewComments(request.getReviewComments());
+
+        if (newStatus == Patient.AssessmentStatus.APPROVED) {
+            patient.setApprovedAt(java.time.LocalDateTime.now());
+        }
+
+        Patient saved = patientRepository.save(patient);
+
+        String facultyName = faculty != null ? faculty.getFullName() : facultyEmail;
+        auditLogService.log(
+            faculty != null ? faculty.getId() : null,
+            facultyEmail,
+            saved.getId(),
+            "PATIENT",
+            "REVIEW",
+            "Assessment status updated to " + newStatus.name() + " by " + facultyName,
+            "Patient",
+            saved.getId()
+        );
+
         return toResponse(saved);
     }
 

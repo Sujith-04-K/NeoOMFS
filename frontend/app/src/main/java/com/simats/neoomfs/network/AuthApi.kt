@@ -6,11 +6,13 @@ import com.simats.neoomfs.models.ForgotPasswordRequest
 import com.simats.neoomfs.models.LoginRequest
 import com.simats.neoomfs.models.RegisterRequest
 import com.simats.neoomfs.models.ResetPasswordRequest
+import com.simats.neoomfs.models.UpdateProfileRequest
 import com.simats.neoomfs.models.UserProfileResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 interface AuthApi {
     @POST("auth/login")
@@ -27,4 +29,7 @@ interface AuthApi {
 
     @GET("auth/me")
     suspend fun getProfile(): Response<ApiResponse<UserProfileResponse>>
+
+    @PUT("auth/me")
+    suspend fun updateProfile(@Body request: UpdateProfileRequest): Response<ApiResponse<UserProfileResponse>>
 }

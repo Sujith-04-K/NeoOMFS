@@ -109,10 +109,6 @@ public class ClinicalDecisionServiceImpl implements ClinicalDecisionService {
 
         decision = decisionRepository.save(decision);
 
-        // Update Patient's overall assessment status
-        patient.setAssessmentStatus(result.getFitnessDecision() != null ? Patient.AssessmentStatus.valueOf(result.getFitnessDecision().toUpperCase()) : null);
-        patientRepository.save(patient);
-
         auditLogService.log(doctor.getId(), doctor.getUsername(), patientId, "CLINICAL_DECISION", "GENERATE", "Generated clinical decision for patient: " + patient.getMrn(), "ClinicalDecision", decision.getId());
 
         return decisionMapper.toResponse(decision);

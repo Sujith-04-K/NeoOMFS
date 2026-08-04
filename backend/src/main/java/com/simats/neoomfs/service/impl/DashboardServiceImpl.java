@@ -32,7 +32,7 @@ public class DashboardServiceImpl implements DashboardService {
 
         Long pendingClinicalDecision = patientRepository.searchPatients(
                 null,
-                Patient.AssessmentStatus.PENDING,
+                Patient.AssessmentStatus.PENDING_REVIEW,
                 null,
                 org.springframework.data.domain.PageRequest.of(0, 1)
         ).getTotalElements();

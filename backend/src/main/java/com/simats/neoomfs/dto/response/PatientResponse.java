@@ -30,4 +30,11 @@ public class PatientResponse {
     private String createdByName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    // Faculty review fields
+    private String submittedBy;
+    private String reviewedByName;
+    private String reviewComments;
+    private LocalDateTime approvedAt;
 }
+

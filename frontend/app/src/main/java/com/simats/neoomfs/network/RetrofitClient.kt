@@ -51,8 +51,8 @@ object RetrofitClient {
                 chain.proceed(request)
             }
             .addInterceptor(loggingInterceptor)
-            .connectTimeout(2, TimeUnit.SECONDS)
-            .readTimeout(2, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
             .build()
     }
 

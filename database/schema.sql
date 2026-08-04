@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS patients (
     emergency_phone VARCHAR(20) DEFAULT NULL,
     procedure_type VARCHAR(100) DEFAULT NULL,
     referring_doctor VARCHAR(100) DEFAULT NULL,
-    assessment_status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+    assessment_status VARCHAR(20) NOT NULL DEFAULT 'DRAFT',
     is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
     created_by_user_id BIGINT DEFAULT NULL,
     created_at DATETIME NOT NULL,

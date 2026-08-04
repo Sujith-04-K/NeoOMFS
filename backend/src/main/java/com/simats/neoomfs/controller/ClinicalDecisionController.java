@@ -20,7 +20,7 @@ public class ClinicalDecisionController {
     private final ClinicalDecisionService clinicalDecisionService;
 
     @PostMapping("/evaluate")
-    @PreAuthorize("hasAnyRole('ROLE_DOCTOR','ROLE_ADMIN','ROLE_FACULTY')")
+    @PreAuthorize("hasAnyRole('ROLE_DOCTOR','ROLE_ADMIN','ROLE_FACULTY','ROLE_STUDENT')")
     public ResponseEntity<ApiResponse<ClinicalDecisionResponse>> evaluate(
             @PathVariable("id") Long patientId,
             @AuthenticationPrincipal UserDetails userDetails) {
@@ -37,7 +37,7 @@ public class ClinicalDecisionController {
     }
 
     @PutMapping("/notes")
-    @PreAuthorize("hasAnyRole('ROLE_DOCTOR','ROLE_ADMIN','ROLE_FACULTY')")
+    @PreAuthorize("hasAnyRole('ROLE_DOCTOR','ROLE_ADMIN','ROLE_FACULTY','ROLE_STUDENT')")
     public ResponseEntity<ApiResponse<ClinicalDecisionResponse>> saveNotes(
             @PathVariable("id") Long patientId,
             @Valid @RequestBody ClinicalDecisionRequest request) {

@@ -17,5 +17,9 @@ data class PatientResponse(
     val referringDoctor: String?,
     val createdByName: String?,
     val createdAt: String?,
-    val updatedAt: String?
+    val updatedAt: String?,
+    val submittedBy: String? = null,
+    val reviewedByName: String? = null,
+    val reviewComments: String? = null,
+    val approvedAt: String? = null
 )
