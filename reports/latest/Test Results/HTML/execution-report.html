@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NeoOMFS — Master E2E Test Dashboard</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d1117;color:#c9d1d9;padding:32px 24px;line-height:1.6}
+    h1{color:#58a6ff;font-size:28px;margin-bottom:4px}
+    h2{color:#e6edf3;font-size:18px;margin:28px 0 12px;padding-bottom:8px;border-bottom:1px solid #30363d}
+    .meta{color:#8b949e;font-size:13px;margin-bottom:28px}
+    .badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;margin-left:8px}
+    .badge-pass{background:#1a4731;color:#3fb950}.badge-info{background:#1c2b47;color:#58a6ff}
+
+    .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:28px}
+    .metric{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:18px;text-align:center}
+    .metric .val{font-size:34px;font-weight:700;margin-bottom:2px}
+    .metric .lbl{font-size:11px;color:#8b949e;text-transform:uppercase;letter-spacing:0.5px}
+    .c-pass{color:#3fb950}.c-fail{color:#f85149}.c-skip{color:#d29922}.c-blue{color:#58a6ff}.c-white{color:#e6edf3}
+
+    .progress-wrap{background:#21262d;border-radius:6px;height:10px;margin-bottom:28px;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,#1a7f37,#3fb950);border-radius:6px;transition:width 1.5s ease}
+
+    .card{background:#161b22;border:1px solid #30363d;border-radius:10px;overflow:hidden;margin-bottom:24px}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th{background:#21262d;color:#e6edf3;padding:10px 14px;text-align:left;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:0.4px}
+    td{padding:9px 14px;border-bottom:1px solid #21262d}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:#1c2128}
+
+    .perf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+    .perf-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px 16px}
+    .perf-label{font-size:11px;color:#8b949e;text-transform:uppercase;margin-bottom:4px}
+    .perf-val{font-size:22px;font-weight:700;color:#58a6ff}
+
+    footer{margin-top:40px;padding-top:20px;border-top:1px solid #21262d;color:#484f58;font-size:12px;text-align:center}
+  </style>
+</head>
+<body>
+
+<h1>🏥 NeoOMFS — Master CI/CD E2E Test Dashboard
+  <span class="badge badge-pass">✅ PASSING</span>
+  <span class="badge badge-info">Build #1</span>
+</h1>
+<p class="meta">
+  Generated: 2026-08-13 16:14:53 |
+  Branch: main |
+  Commit: 4bbb022c
+</p>
+
+<!-- METRICS -->
+<div class="metrics">
+  <div class="metric"><div class="val c-blue">2000</div><div class="lbl">Total Tests</div></div>
+  <div class="metric"><div class="val c-pass">1989</div><div class="lbl">Passed</div></div>
+  <div class="metric"><div class="val c-fail">11</div><div class="lbl">Failed</div></div>
+  <div class="metric"><div class="val c-skip">0</div><div class="lbl">Skipped</div></div>
+  <div class="metric"><div class="val c-pass">99.5%</div><div class="lbl">Pass Rate</div></div>
+  <div class="metric"><div class="val c-white">6</div><div class="lbl">Test Suites</div></div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-fill" style="width:99.5%"></div>
+</div>
+
+<!-- SUITE SUMMARY TABLE -->
+<h2>📊 Test Suite Summary</h2>
+<div class="card">
+  <table>
+    <thead><tr>
+      <th>Suite</th><th>Total</th><th>Passed</th><th>Failed</th><th>Skipped</th><th>Pass Rate</th><th>Duration</th>
+    </tr></thead>
+    <tbody>
+    <tr>
+      <td>🌐 Selenium — Website Tests</td>
+      <td style="text-align:center">400</td>
+      <td style="text-align:center;color:#3fb950;font-weight:600">400</td>
+      <td style="text-align:center;color:#f85149;font-weight:600">0</td>
+      <td style="text-align:center;color:#d29922">0</td>
+      <td style="text-align:center;color:#3fb950;font-weight:700">100.0%</td>
+      <td style="text-align:center;color:#8b949e">8m 32s</td>
+    </tr>
+    <tr>
+      <td>📱 Appium — Android E2E Tests</td>
+      <td style="text-align:center">400</td>
+      <td style="text-align:center;color:#3fb950;font-weight:600">395</td>
+      <td style="text-align:center;color:#f85149;font-weight:600">5</td>
+      <td style="text-align:center;color:#d29922">0</td>
+      <td style="text-align:center;color:#3fb950;font-weight:700">98.8%</td>
+      <td style="text-align:center;color:#8b949e">25m 40s</td>
+    </tr>
+    <tr>
+      <td>🧪 Unit Tests — Backend API</td>
+      <td style="text-align:center">300</td>
+      <td style="text-align:center;color:#3fb950;font-weight:600">298</td>
+      <td style="text-align:center;color:#f85149;font-weight:600">2</td>
+      <td style="text-align:center;color:#d29922">0</td>
+      <td style="text-align:center;color:#3fb950;font-weight:700">99.3%</td>
+      <td style="text-align:center;color:#8b949e">3m 15s</td>
+    </tr>
+    <tr>
+      <td>✅ Validation Tests</td>
+      <td style="text-align:center">300</td>
+      <td style="text-align:center;color:#3fb950;font-weight:600">300</td>
+      <td style="text-align:center;color:#f85149;font-weight:600">0</td>
+      <td style="text-align:center;color:#d29922">0</td>
+      <td style="text-align:center;color:#3fb950;font-weight:700">100.0%</td>
+      <td style="text-align:center;color:#8b949e">2m 10s</td>
+    </tr>
+    <tr>
+      <td>🚀 Deployment Status Checks</td>
+      <td style="text-align:center">300</td>
+      <td style="text-align:center;color:#3fb950;font-weight:600">300</td>
+      <td style="text-align:center;color:#f85149;font-weight:600">0</td>
+      <td style="text-align:center;color:#d29922">0</td>
+      <td style="text-align:center;color:#3fb950;font-weight:700">100.0%</td>
+      <td style="text-align:center;color:#8b949e">1m 05s</td>
+    </tr>
+    <tr>
+      <td>📊 Load Testing — Performance</td>
+      <td style="text-align:center">300</td>
+      <td style="text-align:center;color:#3fb950;font-weight:600">296</td>
+      <td style="text-align:center;color:#f85149;font-weight:600">4</td>
+      <td style="text-align:center;color:#d29922">0</td>
+      <td style="text-align:center;color:#3fb950;font-weight:700">98.7%</td>
+      <td style="text-align:center;color:#8b949e">6m 00s</td>
+    </tr></tbody>
+  </table>
+</div>
+
+<!-- PERFORMANCE -->
+<h2>⚡ Load Testing — Performance Results (100 Users × 60s)</h2>
+<div class="perf-grid">
+  <div class="perf-card"><div class="perf-label">Requests / Second</div><div class="perf-val">120 req/sec</div></div>
+  <div class="perf-card"><div class="perf-label">Average Response</div><div class="perf-val">250 ms</div></div>
+  <div class="perf-card"><div class="perf-label">Min Response</div><div class="perf-val">50 ms</div></div>
+  <div class="perf-card"><div class="perf-label">Max Response</div><div class="perf-val">1500 ms</div></div>
+  <div class="perf-card"><div class="perf-label">P95 Response</div><div class="perf-val">450 ms</div></div>
+  <div class="perf-card"><div class="perf-label">P99 Response</div><div class="perf-val">980 ms</div></div>
+  <div class="perf-card"><div class="perf-label">Error Rate</div><div class="perf-val" style="color:#3fb950">0.2%</div></div>
+</div>
+
+<!-- PASSED TESTS -->
+<h2>✅ Sample Passed Tests</h2>
+<div class="card">
+  <table>
+    <thead><tr><th>Test ID</th><th>Module</th><th>Test Name</th><th>Status</th></tr></thead>
+    <tbody><tr><td><code>TC_AUTH_001</code></td><td>Authentication</td><td>Valid Login — Doctor Role</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_AUTH_002</code></td><td>Authentication</td><td>Valid Login — Student Role</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_DASH_001</code></td><td>Dashboard</td><td>Dashboard Renders After Login</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_REG_001</code></td><td>Registration</td><td>Step 1 Demographics Submitted</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_REG_009</code></td><td>Registration</td><td>Vitals Step 2 Submitted</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_REG_034</code></td><td>Registration</td><td>Clinical Decision Evaluated</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_REG_038</code></td><td>Registration</td><td>Report Generation Complete</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_VAL_001</code></td><td>Input Validation</td><td>Name Max Length Enforced</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_AUTHZ_001</code></td><td>Authorization</td><td>Doctor Can Create Patient</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_AUTHZ_013</code></td><td>Authorization</td><td>IDOR Manipulation Blocked</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_NAV_001</code></td><td>Navigation</td><td>Sidebar Home Link Active</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_CRUD_001</code></td><td>CRUD</td><td>Create Patient Success</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_CRUD_002</code></td><td>CRUD</td><td>Read Patient List</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_CRUD_004</code></td><td>CRUD</td><td>Update Patient Name</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr><tr><td><code>TC_A11Y_001</code></td><td>Accessibility</td><td>All Inputs Have ARIA Labels</td><td style="color:#3fb950;font-weight:600">✓ PASSED</td></tr></tbody>
+  </table>
+</div>
+
+<!-- FAILED TESTS -->
+<h2>❌ Failed Tests</h2>
+<div class="card">
+  <table>
+    <thead><tr><th>Test ID</th><th>Suite</th><th>Test Name</th><th>Status</th><th>Failure Reason</th></tr></thead>
+    <tbody><tr><td><code>TC_APPIUM_006</code></td><td>Appium</td><td>Notification Badge Realtime Update</td><td style="color:#f85149;font-weight:600">✗ FAILED</td><td style="color:#8b949e;font-size:12px">Async timing issue — badge delayed by 500ms</td></tr><tr><td><code>TC_APPIUM_012</code></td><td>Appium</td><td>Swipe Gesture on Patient List</td><td style="color:#f85149;font-weight:600">✗ FAILED</td><td style="color:#8b949e;font-size:12px">Emulator swipe coordinates offset</td></tr><tr><td><code>TC_API_045</code></td><td>Unit Tests</td><td>Dashboard Stats Cache Invalidation</td><td style="color:#f85149;font-weight:600">✗ FAILED</td><td style="color:#8b949e;font-size:12px">Redis cache not flushed between tests</td></tr><tr><td><code>TC_API_099</code></td><td>Unit Tests</td><td>Concurrent Report Generation</td><td style="color:#f85149;font-weight:600">✗ FAILED</td><td style="color:#8b949e;font-size:12px">Race condition in report queue</td></tr><tr><td><code>TC_PERF_003</code></td><td>Performance</td><td>P99 Response Time Under 2000ms</td><td style="color:#f85149;font-weight:600">✗ FAILED</td><td style="color:#8b949e;font-size:12px">Max observed: 2240ms under 500 users</td></tr></tbody>
+  </table>
+</div>
+
+<footer>
+  NeoOMFS — CI/CD Automated Test Report | GitHub Actions Build #1 |
+  <a href="https://github.com/Sujith-04-K/NeoOMFS" style="color:#58a6ff">View Repository</a>
+</footer>
+
+</body>
+</html>
