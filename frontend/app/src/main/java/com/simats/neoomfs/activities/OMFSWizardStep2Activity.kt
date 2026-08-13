@@ -152,8 +152,40 @@ class OMFSWizardStep2Activity : AppCompatActivity() {
         val btnWizardNext = findViewById<LinearLayout>(R.id.btnWizardNext)
 
         btnWizardBack.setOnClickListener {
-            // Finish this step, return to Step 1
             finish()
+        }
+
+        // Helper to navigate to step 3
+        fun goToStep3(systolic: String, diastolic: String, pulse: String, temp: String, respiratory: String, spo2: String) {
+            val intent = Intent(this@OMFSWizardStep2Activity, OMFSWizardStep3Activity::class.java).apply {
+                putExtra("patient_id", patientId)
+                putExtra("patient_name", name)
+                putExtra("patient_age", age)
+                putExtra("patient_gender", gender)
+                putExtra("patient_procedure", procedure)
+                putExtra("patient_asa", asa)
+                putStringArrayListExtra("patient_allergies", allergies)
+                putExtra("vital_bp_sys", systolic)
+                putExtra("vital_bp_dia", diastolic)
+                putExtra("vital_pulse", pulse)
+                putExtra("vital_temp", temp)
+                putExtra("vital_resp", respiratory)
+                putExtra("vital_spo2", spo2)
+            }
+            startActivity(intent)
+        }
+
+        // Skip button (if it exists in layout)
+        val btnWizardSkip = findViewById<TextView?>(R.id.btnWizardSkip)
+        btnWizardSkip?.setOnClickListener {
+            goToStep3(
+                etSystolic.text.toString().ifBlank { "120" },
+                etDiastolic.text.toString().ifBlank { "80" },
+                etPulseRate.text.toString().ifBlank { "72" },
+                etTemperature.text.toString().ifBlank { "98.6" },
+                etRespiratory.text.toString().ifBlank { "16" },
+                etSpO2.text.toString().ifBlank { "98" }
+            )
         }
 
         btnWizardNext.setOnClickListener {
@@ -181,27 +213,19 @@ class OMFSWizardStep2Activity : AppCompatActivity() {
                 bmi = null
             )
 
+            // Show loading state
+            val tvNextText = btnWizardNext.getChildAt(0) as? TextView
+            btnWizardNext.isEnabled = false
+            tvNextText?.text = "Saving…"
+
             lifecycleScope.launch {
                 wizardRepository.saveVitals(patientId, request)
                     .onSuccess {
-                        val intent = Intent(this@OMFSWizardStep2Activity, OMFSWizardStep3Activity::class.java).apply {
-                            putExtra("patient_id", patientId)
-                            putExtra("patient_name", name)
-                            putExtra("patient_age", age)
-                            putExtra("patient_gender", gender)
-                            putExtra("patient_procedure", procedure)
-                            putExtra("patient_asa", asa)
-                            putStringArrayListExtra("patient_allergies", allergies)
-                            putExtra("vital_bp_sys", systolic)
-                            putExtra("vital_bp_dia", diastolic)
-                            putExtra("vital_pulse", pulse)
-                            putExtra("vital_temp", temp)
-                            putExtra("vital_resp", respiratory)
-                            putExtra("vital_spo2", spo2)
-                        }
-                        startActivity(intent)
+                        goToStep3(systolic, diastolic, pulse, temp, respiratory, spo2)
                     }
                     .onFailure {
+                        btnWizardNext.isEnabled = true
+                        tvNextText?.text = "Next step →"
                         Toast.makeText(this@OMFSWizardStep2Activity, it.message ?: "Unable to save vitals", Toast.LENGTH_LONG).show()
                     }
             }

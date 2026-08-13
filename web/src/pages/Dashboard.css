@@ -1,22 +1,346 @@
-.pending-alert {
+/* =====================================================
+   NeoOMFS Web — Light Glassmorphism Dashboard Styles
+   ===================================================== */
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ── 1. Search Row ────────────────────────────────── */
+.dashboard-search-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dashboard-search-bar {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 12px;
-  background: var(--amber-bg);
-  border: 1px solid rgba(245,158,11,.3);
-  border-radius: var(--radius);
-  padding: 14px 18px;
-  margin-bottom: 24px;
-  font-size: .875rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #CBD5E1;
+  border-radius: var(--radius-lg);
+  padding: 12px 20px;
+  transition: var(--transition);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-search-bar:focus-within {
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  background: #FFFFFF;
+}
+
+.search-icon {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.dashboard-search-bar input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  outline: none;
+}
+.dashboard-search-bar input::placeholder { color: var(--text-muted); }
+
+.clear-search-btn {
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.clear-search-btn:hover { color: var(--text-primary); background: #F1F5F9; }
+
+.refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  color: var(--text-primary);
+  padding: 12px 18px;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+.refresh-btn:hover {
+  background: #F8FAFC;
+  border-color: #94A3B8;
+  transform: translateY(-1px);
+}
+.refresh-btn.spinning svg { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* ── 2. Header Row ────────────────────────────────── */
+.dashboard-header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.greeting-block h2 {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+.greeting-sub {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.system-active-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  color: #059669;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.1);
+}
+
+.status-pulse-dot {
+  width: 8px; height: 8px;
+  background: #059669;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #059669;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%   { transform: scale(0.95); opacity: 0.8; }
+  50%  { transform: scale(1.2);  opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+/* ── 3. Quick Actions Grid ────────────────────────── */
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.quick-action-card {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 120px;
+  cursor: pointer;
+  transition: var(--transition);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+.quick-action-card:hover {
+  transform: translateY(-4px);
+  border-color: #BFDBFE;
+  box-shadow: var(--shadow), 0 0 20px rgba(37, 99, 235, 0.08);
+  background: #FFFFFF;
+}
+
+.quick-action-card.action-primary {
+  background: linear-gradient(135deg, #0F2A4A 0%, #1E3E62 100%);
+  border-color: #0F2A4A;
+  box-shadow: 0 8px 24px rgba(15, 42, 74, 0.25);
+  color: #FFFFFF;
+}
+.quick-action-card.action-primary:hover {
+  background: linear-gradient(135deg, #173A63 0%, #254F7C 100%);
+  border-color: #173A63;
+}
+
+.action-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: #F1F5F9;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+.action-primary .action-icon {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+}
+.action-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+.action-primary .action-label {
+  color: #FFFFFF;
+}
+
+/* ── 4. Clinical Stats Grid ───────────────────────── */
+.clinical-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.stat-box {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: var(--transition);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
+}
+.stat-box:hover {
+  background: #FFFFFF;
+  border-color: #CBD5E1;
+  box-shadow: var(--shadow);
+}
+
+.stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.stat-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.stat-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+.tag-blue   { background: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; }
+.tag-amber  { background: #FFFBEB; color: #D97706; border: 1px solid #FDE68A; }
+.tag-green  { background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; }
+.tag-danger { background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; }
+
+.stat-num {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.stat-high-risk {
+  background: #FEF2F2;
+  border-color: #FECACA;
+}
+.stat-title-danger { color: #DC2626; }
+.stat-num-danger { color: #DC2626; }
+
+/* ── 5. Priority Alerts ───────────────────────────── */
+.priority-alerts-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.section-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+.section-title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.15rem;
+  font-weight: 800;
   color: var(--text-primary);
 }
-.pending-alert-icon { font-size: 1.2rem; color: var(--amber); flex-shrink: 0; }
-.pending-alert > div { flex: 1; }
-.pending-alert strong { color: var(--amber); }
+.alert-header-icon { color: #DC2626; display: flex; }
+.critical-action-tag {
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #DC2626;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+}
+
+.priority-alert-card {
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-left: 4px solid #DC2626;
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  transition: var(--transition);
+}
+.priority-alert-card:hover {
+  background: #FEE2E2;
+  transform: translateX(2px);
+}
+.alert-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.alert-patient-name { font-size: 1.05rem; font-weight: 800; color: var(--text-primary); }
+.alert-vitals       { font-size: 0.95rem; font-weight: 800; color: #DC2626; }
+.alert-description  { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4; }
+
+/* ── 6. Clinical Table Card ───────────────────────── */
+.clinical-table-card {
+  padding: 28px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid #E2E8F0;
+  box-shadow: var(--shadow-sm);
+}
 
 .dashboard-table-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 4px;
+  margin-bottom: 12px;
+}
+.filter-badge { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-left: 6px; }
+
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 1024px) {
+  .quick-actions-grid, .clinical-stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .dashboard-search-row { flex-direction: column; align-items: stretch; }
+  .quick-actions-grid, .clinical-stats-grid { grid-template-columns: 1fr; }
+  .dashboard-header-row { flex-direction: column; align-items: flex-start; }
 }

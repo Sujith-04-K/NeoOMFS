@@ -49,6 +49,11 @@ public class PatientServiceImpl implements PatientService {
         User doctor = userRepository.findByEmail(doctorEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", doctorEmail));
 
+        User referringDoctor = null;
+        if (request.getReferringDoctorId() != null) {
+            referringDoctor = userRepository.findById(request.getReferringDoctorId()).orElse(null);
+        }
+
         Patient patient = Patient.builder()
                 .mrn(mrnGenerator.generateUniqueMrn())
                 .fullName(request.getFullName())
@@ -61,7 +66,7 @@ public class PatientServiceImpl implements PatientService {
                 .emergencyContact(request.getEmergencyContact())
                 .emergencyPhone(request.getEmergencyPhone())
                 .procedureType(request.getProcedureType())
-                .referringDoctor(request.getReferringDoctor())
+                .referringDoctor(referringDoctor)
                 .createdBy(doctor)
                 .assessmentStatus(Patient.AssessmentStatus.DRAFT)
                 .build();
@@ -98,7 +103,12 @@ public class PatientServiceImpl implements PatientService {
         patient.setEmergencyContact(request.getEmergencyContact());
         patient.setEmergencyPhone(request.getEmergencyPhone());
         patient.setProcedureType(request.getProcedureType());
-        patient.setReferringDoctor(request.getReferringDoctor());
+        if (request.getReferringDoctorId() != null) {
+            User referringDoctor = userRepository.findById(request.getReferringDoctorId()).orElse(null);
+            patient.setReferringDoctor(referringDoctor);
+        } else {
+            patient.setReferringDoctor(null);
+        }
         Patient saved = patientRepository.save(patient);
 
         User currentUser = getCurrentUser();
@@ -170,6 +180,22 @@ public class PatientServiceImpl implements PatientService {
                 statusEnum = Patient.AssessmentStatus.valueOf(status.toUpperCase());
             } catch (IllegalArgumentException e) {
                 // Ignore invalid status enum
+            }
+        }
+
+        // Role-based data isolation
+        User currentUser = getCurrentUser();
+        if (currentUser != null) {
+            boolean isStudent = currentUser.getRoles().stream().anyMatch(r -> r.getName().name().equals("ROLE_STUDENT"));
+            boolean isFaculty = currentUser.getRoles().stream().anyMatch(r ->
+                    r.getName().name().equals("ROLE_FACULTY") ||
+                    r.getName().name().equals("ROLE_ADMIN") ||
+                    r.getName().name().equals("ROLE_DOCTOR")
+            );
+            
+            if (isStudent && !isFaculty) {
+                // Students can only see their own created patients
+                doctorId = currentUser.getId();
             }
         }
 
@@ -267,7 +293,7 @@ public class PatientServiceImpl implements PatientService {
                 .emergencyPhone(p.getEmergencyPhone())
                 .assessmentStatus(p.getAssessmentStatus() != null ? p.getAssessmentStatus().name() : null)
                 .procedureType(p.getProcedureType())
-                .referringDoctor(p.getReferringDoctor())
+                .referringDoctor(p.getReferringDoctor() != null ? p.getReferringDoctor().getFullName() : null)
                 .createdByName(p.getCreatedBy() != null ? p.getCreatedBy().getFullName() : null)
                 .createdAt(p.getCreatedAt())
                 .updatedAt(p.getUpdatedAt())

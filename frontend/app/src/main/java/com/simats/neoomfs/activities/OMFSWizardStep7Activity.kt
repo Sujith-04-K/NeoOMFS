@@ -259,6 +259,21 @@ class OMFSWizardStep7Activity : AppCompatActivity() {
             finish()
         }
 
+        // Skip button - goes to step 8 with default risk assessment
+        val btnWizardSkip = findViewById<android.widget.TextView?>(R.id.btnWizardSkip)
+        btnWizardSkip?.setOnClickListener {
+            startActivity(Intent(this, OMFSWizardStep8Activity::class.java).apply {
+                putExtra("patient_id", patientId)
+                putExtra("patient_name", name)
+                putExtra("patient_age", age)
+                putExtra("patient_gender", gender)
+                putExtra("patient_procedure", procedure)
+                putExtra("patient_asa", asa)
+                putStringArrayListExtra("patient_allergies", allergies)
+                putExtra("risk_computed_level", "LOW RISK")
+            })
+        }
+
         lifecycleScope.launch {
             wizardRepository.evaluateDecision(patientId)
                 .onSuccess { decision ->

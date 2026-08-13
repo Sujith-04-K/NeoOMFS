@@ -83,6 +83,25 @@ public class ForgotPasswordTest {
     }
 
     @Test
+    public void testForgotPassword_EmailFailure_SavesUserAndDoesNotThrow() {
+        when(userRepository.findByEmail("doctor@simats.ac.in")).thenReturn(Optional.of(testUser));
+        doThrow(new RuntimeException("SMTP error"))
+                .when(passwordResetEmailService).sendPasswordResetEmail(anyString(), anyString(), anyString());
+
+        ForgotPasswordRequest request = new ForgotPasswordRequest();
+        request.setEmail("doctor@simats.ac.in");
+
+        assertDoesNotThrow(() -> authService.forgotPassword(request));
+
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(userRepository).save(userCaptor.capture());
+        User savedUser = userCaptor.getValue();
+
+        assertNotNull(savedUser.getPasswordResetToken(), "Password reset OTP should still be generated and set");
+        assertEquals(6, savedUser.getPasswordResetToken().length(), "OTP should be 6 digits");
+    }
+
+    @Test
     public void testResetPassword_Success() {
         testUser.setPasswordResetToken("123456");
         testUser.setPasswordResetExpiry(LocalDateTime.now().plusMinutes(10));

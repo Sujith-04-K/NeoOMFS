@@ -33,7 +33,7 @@ class ResetPasswordActivity : AppCompatActivity() {
         intent?.getStringExtra("email")?.let { email ->
             etEmail.setText(email)
         }
-        etOtp.setText("123456")
+
 
         btnBack.setOnClickListener { finish() }
         tvBackToLogin.setOnClickListener { finish() }

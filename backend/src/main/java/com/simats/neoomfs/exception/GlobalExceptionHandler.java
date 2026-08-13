@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MailDeliveryException.class)
     public ResponseEntity<ErrorResponse> handleMailDelivery(
             MailDeliveryException ex, HttpServletRequest request) {
-        return buildError(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage(), request);
+        return buildError(HttpStatus.BAD_GATEWAY, ex.getMessage(), request);
     }
 
     @ExceptionHandler(ForbiddenException.class)

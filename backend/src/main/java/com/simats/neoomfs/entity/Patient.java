@@ -54,8 +54,9 @@ public class Patient extends BaseEntity {
     @Column(name = "procedure_type", length = 100)
     private String procedureType;
 
-    @Column(name = "referring_doctor", length = 100)
-    private String referringDoctor;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "referring_doctor_id")
+    private User referringDoctor;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "assessment_status", length = 20)

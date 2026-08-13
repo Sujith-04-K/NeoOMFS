@@ -3,6 +3,7 @@ package com.simats.neoomfs.service;
 import com.simats.neoomfs.dto.response.AnalyticsResponse;
 import com.simats.neoomfs.entity.AssessmentReport;
 import com.simats.neoomfs.entity.Patient;
+import com.simats.neoomfs.entity.User;
 import com.simats.neoomfs.repository.AssessmentReportRepository;
 import com.simats.neoomfs.repository.PatientRepository;
 import com.simats.neoomfs.service.impl.ExportServiceImpl;
@@ -37,6 +38,13 @@ public class ExportServiceTest {
 
     @Test
     public void testExportPatientsCsv() {
+        User doctor = User.builder()
+                .fullName("Dr. Smith")
+                .email("smith@simats.ac.in")
+                .username("dr.smith")
+                .build();
+        doctor.setId(2L);
+
         Patient patient = Patient.builder()
                 .fullName("John Doe")
                 .mrn("MRN101")
@@ -44,7 +52,7 @@ public class ExportServiceTest {
                 .gender("Male")
                 .bloodGroup("O+")
                 .phoneNumber("1234567890")
-                .referringDoctor("Dr. Smith")
+                .referringDoctor(doctor)
                 .assessmentStatus(Patient.AssessmentStatus.APPROVED)
                 .build();
         patient.setId(1L);

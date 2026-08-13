@@ -51,5 +51,5 @@ export const getUserPayload = () => {
 
 export const isFaculty = () => {
   const role = getUserRole();
-  return role === 'FACULTY' || role === 'ADMIN';
+  return role === 'DOCTOR' || role === 'FACULTY' || role === 'ADMIN';
 };

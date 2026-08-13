@@ -171,6 +171,20 @@ class OMFSWizardStep4Activity : AppCompatActivity() {
             finish()
         }
 
+        // Skip button
+        val btnWizardSkip = findViewById<android.widget.TextView?>(R.id.btnWizardSkip)
+        btnWizardSkip?.setOnClickListener {
+            startActivity(Intent(this, OMFSWizardStep5Activity::class.java).apply {
+                putExtra("patient_id", patientId)
+                putExtra("patient_name", name)
+                putExtra("patient_age", age)
+                putExtra("patient_gender", gender)
+                putExtra("patient_procedure", procedure)
+                putExtra("patient_asa", asa)
+                putStringArrayListExtra("patient_allergies", allergies)
+            })
+        }
+
         btnWizardNext.setOnClickListener {
             val bg = etBloodGroup.text.toString().trim()
             val rbs = etRbs.text.toString().trim()
@@ -201,6 +215,10 @@ class OMFSWizardStep4Activity : AppCompatActivity() {
                 randomBloodSugar = rbs.toDoubleOrNull(),
                 bloodGroup = bg
             )
+
+            val tvNextText = btnWizardNext.getChildAt(0) as? android.widget.TextView
+            btnWizardNext.isEnabled = false
+            tvNextText?.text = "Saving…"
 
             lifecycleScope.launch {
                 wizardRepository.saveLaboratory(patientId, request)
@@ -233,6 +251,8 @@ class OMFSWizardStep4Activity : AppCompatActivity() {
                         startActivity(intent)
                     }
                     .onFailure {
+                        btnWizardNext.isEnabled = true
+                        tvNextText?.text = "Next step →"
                         Toast.makeText(this@OMFSWizardStep4Activity, it.message ?: "Unable to save laboratory data", Toast.LENGTH_LONG).show()
                     }
             }

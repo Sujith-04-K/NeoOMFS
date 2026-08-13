@@ -29,12 +29,12 @@ class OMFSWizardActivity : AppCompatActivity() {
 
         // Retrieve data from intent
         val patientId = intent.getLongExtra("patient_id", -1L)
-        val name = intent.getStringExtra("patient_name") ?: "John Mathew"
-        val age = intent.getStringExtra("patient_age") ?: "27"
-        val gender = intent.getStringExtra("patient_gender") ?: "Other"
-        val procedure = intent.getStringExtra("patient_procedure") ?: "Third Molar Extraction"
+        val name = intent.getStringExtra("patient_name") ?: ""
+        val age = intent.getStringExtra("patient_age") ?: ""
+        val gender = intent.getStringExtra("patient_gender") ?: ""
+        val procedure = intent.getStringExtra("patient_procedure") ?: ""
         val asa = intent.getIntExtra("patient_asa", 1)
-        val allergies = intent.getStringArrayListExtra("patient_allergies") ?: arrayListOf("Penicillin", "Latex")
+        val allergies = intent.getStringArrayListExtra("patient_allergies") ?: arrayListOf()
 
         selectedAllergies.addAll(allergies)
 

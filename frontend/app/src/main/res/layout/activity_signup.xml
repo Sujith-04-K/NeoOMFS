@@ -57,6 +57,7 @@
 
                 <EditText
                     android:id="@+id/etFullName"
+                    android:contentDescription="Full Name Input"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
                     android:layout_marginTop="8dp"
@@ -84,6 +85,7 @@
 
                 <EditText
                     android:id="@+id/etHospital"
+                    android:contentDescription="Hospital Input"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
                     android:layout_marginTop="8dp"
@@ -111,6 +113,7 @@
 
                 <EditText
                     android:id="@+id/etLicense"
+                    android:contentDescription="License Input"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
                     android:layout_marginTop="8dp"
@@ -138,6 +141,7 @@
 
                 <EditText
                     android:id="@+id/etEmail"
+                    android:contentDescription="Email Input"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
                     android:layout_marginTop="8dp"
@@ -170,6 +174,7 @@
 
                     <EditText
                         android:id="@+id/etPassword"
+                        android:contentDescription="Password Input"
                         android:layout_width="match_parent"
                         android:layout_height="54dp"
                         android:background="@drawable/bg_edit_text"
@@ -188,6 +193,7 @@
                     <!-- Eye toggle -->
                     <ImageView
                         android:id="@+id/ivEyeToggle"
+                        android:contentDescription="Toggle Password Visibility"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
@@ -210,6 +216,7 @@
 
                     <CheckBox
                         android:id="@+id/cbTerms"
+                        android:contentDescription="Terms Checkbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-2dp"
@@ -229,6 +236,7 @@
                 <!-- Sign Up Button -->
                 <LinearLayout
                     android:id="@+id/btnSignUp"
+                    android:contentDescription="Sign Up Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="54dp"
@@ -247,6 +255,15 @@
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBarSignUp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+                        android:visibility="gone"
+                        android:indeterminate="true"
+                        android:indeterminateTint="@color/white" />
 
                     <ImageView
                         android:layout_width="20dp"
@@ -274,6 +291,7 @@
 
                     <TextView
                         android:id="@+id/tvSignInLink"
+                        android:contentDescription="Sign In Link"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackground"

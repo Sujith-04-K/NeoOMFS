@@ -37,6 +37,7 @@ public class SecurityConfig {
             "/auth/refresh",
             "/auth/forgot-password",
             "/auth/reset-password",
+            "/h2-console/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/api-docs/**",
@@ -52,6 +53,9 @@ public class SecurityConfig {
 
             // Disable CSRF – stateless REST API
             .csrf(AbstractHttpConfigurer::disable)
+
+            // Allow H2 Console frames
+            .headers(headers -> headers.frameOptions(org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig::disable))
 
             // Stateless session
             .sessionManagement(session ->

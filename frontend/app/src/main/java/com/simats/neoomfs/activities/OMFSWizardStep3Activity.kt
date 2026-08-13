@@ -33,6 +33,7 @@ class OMFSWizardStep3Activity : AppCompatActivity() {
     private var opgUploaded = false
     private var cbctUploaded = false
     private var pendingUiUpdate: ((String, String) -> Unit)? = null
+    private var isDialogOpen = false  // guard against double-tap dialog
 
     private val filePicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri == null) {
@@ -182,6 +183,8 @@ class OMFSWizardStep3Activity : AppCompatActivity() {
 
         // Show Dialog helper
         fun openUploadDialog(target: String) {
+            if (isDialogOpen) return  // prevent double-open
+            isDialogOpen = true
             activeUploadTarget = target
             dimOverlay.visibility = View.VISIBLE
             layoutUploadDialog.visibility = View.VISIBLE
@@ -191,25 +194,22 @@ class OMFSWizardStep3Activity : AppCompatActivity() {
             if (cbIopa.isChecked) openUploadDialog("iopa")
         }
         containerUploadIopa.setOnClickListener { handleIopaClick() }
-        tvUploadIopaTitle.setOnClickListener { handleIopaClick() }
-        tvUploadIopaSub.setOnClickListener { handleIopaClick() }
+        // Note: inner TextViews intentionally have NO separate click listeners
+        // to avoid double-firing the dialog
 
         val handleOpgClick = {
             if (cbOpg.isChecked) openUploadDialog("opg")
         }
         containerUploadOpg.setOnClickListener { handleOpgClick() }
-        tvUploadOpgTitle.setOnClickListener { handleOpgClick() }
-        tvUploadOpgSub.setOnClickListener { handleOpgClick() }
 
         val handleCbctClick = {
             if (cbCbct.isChecked) openUploadDialog("cbct")
         }
         containerUploadCbct.setOnClickListener { handleCbctClick() }
-        tvUploadCbctTitle.setOnClickListener { handleCbctClick() }
-        tvUploadCbctSub.setOnClickListener { handleCbctClick() }
 
         // Hide overlay helper
         fun dismissPopups() {
+            isDialogOpen = false
             dimOverlay.visibility = View.GONE
             layoutUploadDialog.visibility = View.GONE
             layoutPhotoPicker.visibility = View.GONE
@@ -245,11 +245,13 @@ class OMFSWizardStep3Activity : AppCompatActivity() {
 
         btnDialogCamera.setOnClickListener {
             layoutUploadDialog.visibility = View.GONE
+            isDialogOpen = false
             launchCamera(::updateUploadState)
         }
 
         btnDialogDevice.setOnClickListener {
             layoutUploadDialog.visibility = View.GONE
+            isDialogOpen = false
             launchPicker(::updateUploadState)
         }
 
@@ -274,8 +276,22 @@ class OMFSWizardStep3Activity : AppCompatActivity() {
         val btnWizardNext = findViewById<LinearLayout>(R.id.btnWizardNext)
 
         btnWizardBack.setOnClickListener {
-            // Finish this step, return to Step 2
             finish()
+        }
+
+        // Skip button
+        val btnWizardSkip = findViewById<TextView?>(R.id.btnWizardSkip)
+        btnWizardSkip?.setOnClickListener {
+            val intent = Intent(this, OMFSWizardStep4Activity::class.java).apply {
+                currentPatientId?.let { putExtra("patient_id", it) }
+                putExtra("patient_name", name)
+                putExtra("patient_age", age)
+                putExtra("patient_gender", gender)
+                putExtra("patient_procedure", procedure)
+                putExtra("patient_asa", asa)
+                putStringArrayListExtra("patient_allergies", allergies)
+            }
+            startActivity(intent)
         }
 
         btnWizardNext.setOnClickListener {
@@ -292,6 +308,10 @@ class OMFSWizardStep3Activity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            val tvNextText = btnWizardNext.getChildAt(0) as? TextView
+            btnWizardNext.isEnabled = false
+            tvNextText?.text = "Saving…"
+
             val intent = Intent(this, OMFSWizardStep4Activity::class.java).apply {
                 currentPatientId?.let { putExtra("patient_id", it) }
                 putExtra("patient_name", name)
@@ -300,7 +320,6 @@ class OMFSWizardStep3Activity : AppCompatActivity() {
                 putExtra("patient_procedure", procedure)
                 putExtra("patient_asa", asa)
                 putStringArrayListExtra("patient_allergies", allergies)
-                currentPatientId?.let { putExtra("patient_id", it) }
                 putExtra("vital_bp_sys", this@OMFSWizardStep3Activity.intent.getStringExtra("vital_bp_sys"))
                 putExtra("vital_bp_dia", this@OMFSWizardStep3Activity.intent.getStringExtra("vital_bp_dia"))
                 putExtra("vital_pulse", this@OMFSWizardStep3Activity.intent.getStringExtra("vital_pulse"))
@@ -308,6 +327,8 @@ class OMFSWizardStep3Activity : AppCompatActivity() {
                 putExtra("vital_resp", this@OMFSWizardStep3Activity.intent.getStringExtra("vital_resp"))
                 putExtra("vital_spo2", this@OMFSWizardStep3Activity.intent.getStringExtra("vital_spo2"))
             }
+            btnWizardNext.isEnabled = true
+            tvNextText?.text = "Next step →"
             startActivity(intent)
         }
 

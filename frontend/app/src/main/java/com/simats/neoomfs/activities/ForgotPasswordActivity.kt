@@ -3,9 +3,11 @@ package com.simats.neoomfs.activities
 import com.simats.neoomfs.R
 
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -26,14 +28,17 @@ class ForgotPasswordActivity : AppCompatActivity() {
         val etEmail = findViewById<EditText>(R.id.etEmail)
         val btnSendResetLink = findViewById<LinearLayout>(R.id.btnSendResetLink)
         val tvReturnToLogin = findViewById<TextView>(R.id.tvReturnToLogin)
+        val tvBtnText = btnSendResetLink.getChildAt(0) as? TextView
+        val progressBar = findViewById<ProgressBar?>(R.id.progressBarForgot)
 
-        btnBack.setOnClickListener {
-            finish()
+        fun setLoading(loading: Boolean) {
+            btnSendResetLink.isEnabled = !loading
+            tvBtnText?.text = if (loading) "Sending…" else "Send Reset OTP"
+            progressBar?.visibility = if (loading) View.VISIBLE else View.GONE
         }
 
-        tvReturnToLogin.setOnClickListener {
-            finish()
-        }
+        btnBack.setOnClickListener { finish() }
+        tvReturnToLogin.setOnClickListener { finish() }
 
         btnSendResetLink.setOnClickListener {
             val email = etEmail.text.toString().trim()
@@ -43,6 +48,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            setLoading(true)
             authViewModel.sendPasswordReset(email)
         }
 
@@ -50,26 +56,38 @@ class ForgotPasswordActivity : AppCompatActivity() {
             authViewModel.authState.collect { state ->
                 when (state) {
                     is AuthState.Idle -> Unit
-                    is AuthState.Loading -> btnSendResetLink.isEnabled = false
+                    is AuthState.Loading -> setLoading(true)
                     is AuthState.PasswordResetSent -> {
-                        btnSendResetLink.isEnabled = true
+                        setLoading(false)
                         Toast.makeText(
                             this@ForgotPasswordActivity,
-                            "Demo OTP 123456 sent to ${state.email}. Use 123456 to reset password.",
+                            "OTP sent to ${state.email}. Check your inbox (and spam folder).",
                             Toast.LENGTH_LONG
                         ).show()
-                        startActivity(android.content.Intent(this@ForgotPasswordActivity, ResetPasswordActivity::class.java).putExtra("email", state.email))
+                        startActivity(
+                            android.content.Intent(this@ForgotPasswordActivity, ResetPasswordActivity::class.java)
+                                .putExtra("email", state.email)
+                        )
                         finish()
                     }
                     is AuthState.Error -> {
-                        btnSendResetLink.isEnabled = true
-                        Toast.makeText(this@ForgotPasswordActivity, state.message, Toast.LENGTH_LONG).show()
+                        setLoading(false)
+                        val msg = state.message.lowercase()
+                        val friendlyMsg = when {
+                            msg.contains("not found") || msg.contains("no account") || msg.contains("user") ->
+                                "No account found with this email address."
+                            msg.contains("timeout") || msg.contains("connect") || msg.contains("network") ||
+                            msg.contains("unable to resolve") || msg.contains("failed to connect") ->
+                                "Connection failed. Please check your internet and try again."
+                            else -> state.message
+                        }
+                        Toast.makeText(this@ForgotPasswordActivity, friendlyMsg, Toast.LENGTH_LONG).show()
                         authViewModel.resetState()
                     }
                     is AuthState.Success,
                     is AuthState.SignUpSuccess,
                     is AuthState.PasswordResetComplete -> {
-                        btnSendResetLink.isEnabled = true
+                        setLoading(false)
                     }
                 }
             }

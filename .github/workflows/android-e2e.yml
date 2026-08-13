@@ -1,0 +1,77 @@
+name: Android Appium E2E Automation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: macos-latest # Required for starting Apple/Android hardware acceleration emulator
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java Development Kit
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Appium & Drivers
+        run: |
+          npm install -g appium
+          appium driver install uiautomator2
+
+      - name: Build Android Debug APK
+        run: |
+          cd frontend
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Run Android Emulator & Execute Appium Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 33
+          target: google_apis
+          arch: x86_64
+          script: |
+            # Start Appium Server in background
+            appium --log appium.log &
+            
+            # Wait for Appium Health check
+            sleep 10
+            
+            # Run Selenium web tests (simulated web E2E)
+            cd ../automation/web
+            npm install
+            npm test
+            
+            # Run Java Appium mobile E2E tests
+            cd ../android
+            mvn clean test
+
+      - name: Upload Automation Excel & HTML Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: E2E-Automation-Execution-Reports
+          path: |
+            Test Results/
+            Vulnerability Test Results/
+          retention-days: 30
+
+      - name: Publish GitHub Action Run Summary
+        if: always()
+        run: |
+          cat "Vulnerability Test Results/summary.md" >> $GITHUB_STEP_SUMMARY || echo "E2E Run Finished."

@@ -42,6 +42,9 @@ public class PasswordResetEmailService {
     @PostConstruct
     void logMailConfiguration() {
         String normalizedPassword = normalizeAppPassword(smtpPassword);
+        if (mailSender instanceof org.springframework.mail.javamail.JavaMailSenderImpl) {
+            ((org.springframework.mail.javamail.JavaMailSenderImpl) mailSender).setPassword(normalizedPassword);
+        }
         boolean passwordLooksPresent = !normalizedPassword.isBlank();
         boolean passwordHadWhitespace = !smtpPassword.equals(normalizedPassword);
         log.info("Password reset mail devMode: {} | enabled: {} | from: {} | smtp user configured: {} | smtp password present: {} | smtp password had whitespace: {}",
@@ -53,9 +56,14 @@ public class PasswordResetEmailService {
                 passwordHadWhitespace);
     }
 
+    public boolean isDevModeOrSimulation() {
+        String normalizedPassword = normalizeAppPassword(smtpPassword);
+        return devMode || !mailEnabled || smtpUsername.isBlank() || normalizedPassword.isBlank();
+    }
+
     public void sendPasswordResetEmail(String toEmail, String fullName, String otp) {
         String normalizedPassword = normalizeAppPassword(smtpPassword);
-        if (devMode || !mailEnabled || smtpUsername.isBlank() || normalizedPassword.isBlank()) {
+        if (isDevModeOrSimulation()) {
             log.info("==========================================================");
             log.info(" [DEV/TEST MODE] Password Reset Email Simulation");
             log.info(" To: {} ({})", toEmail, fullName);

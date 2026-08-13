@@ -75,6 +75,7 @@
                 <!-- Email Input EditText -->
                 <EditText
                     android:id="@+id/etEmail"
+                    android:contentDescription="Email Address Input"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
                     android:layout_marginTop="8dp"
@@ -107,6 +108,7 @@
 
                     <TextView
                         android:id="@+id/tvForgotPassword"
+                        android:contentDescription="Forgot Password Link"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -122,6 +124,7 @@
                 <!-- Password Input EditText -->
                 <EditText
                     android:id="@+id/etPassword"
+                    android:contentDescription="Password Input"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
                     android:layout_marginTop="8dp"
@@ -140,6 +143,7 @@
                 <!-- Sign In Button -->
                 <LinearLayout
                     android:id="@+id/btnSignIn"
+                    android:contentDescription="Sign In Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="54dp"
@@ -158,6 +162,15 @@
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBarLogin"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+                        android:visibility="gone"
+                        android:indeterminate="true"
+                        android:indeterminateTint="@color/white" />
 
                     <ImageView
                         android:layout_width="20dp"
@@ -184,6 +197,7 @@
 
                     <TextView
                         android:id="@+id/tvSignUpLink"
+                        android:contentDescription="Sign Up Link"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackground"

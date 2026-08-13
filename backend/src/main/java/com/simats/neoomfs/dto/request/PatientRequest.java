@@ -31,5 +31,5 @@ public class PatientRequest {
     private String emergencyContact;
     private String emergencyPhone;
     private String procedureType;
-    private String referringDoctor;
+    private Long referringDoctorId;
 }

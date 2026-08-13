@@ -17,11 +17,16 @@ import androidx.lifecycle.lifecycleScope
 import com.simats.neoomfs.utils.startActivityNoAnimation
 import com.simats.neoomfs.models.PatientResponse
 import com.simats.neoomfs.network.RetrofitClient
+import com.simats.neoomfs.repository.AuthRepository
 import com.simats.neoomfs.repository.BackendPatientRepository
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private val patientRepository = BackendPatientRepository()
+    private lateinit var authRepository: AuthRepository
     private var allPatients: List<PatientResponse> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +34,28 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         RetrofitClient.initialize(applicationContext)
+        authRepository = AuthRepository(applicationContext)
+
+        // Dynamic greeting from session user
+        val tvGreeting = findViewById<TextView?>(R.id.tvGreeting)
+        val tvDate = findViewById<TextView?>(R.id.tvDate)
+        val sessionUser = authRepository.getStoredUser()
+        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val greeting = when {
+            hour < 12 -> "Good morning"
+            hour < 17 -> "Good afternoon"
+            else -> "Good evening"
+        }
+        val userName = sessionUser?.fullName?.trim()?.ifBlank { null } ?: "Doctor"
+        tvGreeting?.text = "$greeting, $userName"
+        val dateFormat = SimpleDateFormat("EEEE, MMMM d", Locale.getDefault())
+        val dateSuffix = when (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) % 10) {
+            1 -> if (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 11) "th" else "st"
+            2 -> if (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 12) "th" else "nd"
+            3 -> if (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 13) "th" else "rd"
+            else -> "th"
+        }
+        tvDate?.text = "${dateFormat.format(Calendar.getInstance().time)}$dateSuffix • Clinical Overview"
 
         // Find Quick Action Buttons
         val btnNewAssessment = findViewById<LinearLayout>(R.id.btnNewAssessment)

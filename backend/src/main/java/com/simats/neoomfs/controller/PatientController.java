@@ -99,7 +99,7 @@ public class PatientController {
     }
 
     @PatchMapping("/{id}/review-status")
-    @PreAuthorize("hasAnyRole('ROLE_FACULTY','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_DOCTOR','ROLE_ADMIN','ROLE_FACULTY','ROLE_STUDENT')")
     public ResponseEntity<ApiResponse<PatientResponse>> updateReviewStatus(
             @PathVariable Long id,
             @Valid @RequestBody ReviewStatusRequest request,

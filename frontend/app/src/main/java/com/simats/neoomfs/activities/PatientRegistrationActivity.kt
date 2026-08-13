@@ -28,7 +28,7 @@ class PatientRegistrationActivity : AppCompatActivity() {
     private val patientRepository = BackendPatientRepository()
     private lateinit var authRepository: AuthRepository
     private var selectedAsa = 1
-    private val selectedAllergies = mutableListOf("Penicillin", "Latex")
+    private val selectedAllergies = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +65,10 @@ class PatientRegistrationActivity : AppCompatActivity() {
         val chipLatex = findViewById<LinearLayout>(R.id.chipLatex)
         val btnRemovePenicillin = findViewById<TextView>(R.id.btnRemovePenicillin)
         val btnRemoveLatex = findViewById<TextView>(R.id.btnRemoveLatex)
+
+        // Hide pre-seeded allergy chips – user must add allergies explicitly
+        chipPenicillin.visibility = android.view.View.GONE
+        chipLatex.visibility = android.view.View.GONE
 
         val etNewAllergy = findViewById<EditText>(R.id.etNewAllergy)
         val btnAddAllergy = findViewById<LinearLayout>(R.id.btnAddAllergy)

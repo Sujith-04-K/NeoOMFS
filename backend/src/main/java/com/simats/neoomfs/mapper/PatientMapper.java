@@ -21,7 +21,6 @@ public class PatientMapper {
                 .emergencyContact(request.getEmergencyContact())
                 .emergencyPhone(request.getEmergencyPhone())
                 .procedureType(request.getProcedureType())
-                .referringDoctor(request.getReferringDoctor())
                 .build();
     }
 
@@ -41,7 +40,7 @@ public class PatientMapper {
                 .emergencyPhone(patient.getEmergencyPhone())
                 .assessmentStatus(patient.getAssessmentStatus() != null ? patient.getAssessmentStatus().name() : null)
                 .procedureType(patient.getProcedureType())
-                .referringDoctor(patient.getReferringDoctor())
+                .referringDoctor(patient.getReferringDoctor() != null ? patient.getReferringDoctor().getFullName() : null)
                 .createdByName(patient.getCreatedBy() != null ? patient.getCreatedBy().getFullName() : null)
                 .createdAt(patient.getCreatedAt())
                 .updatedAt(patient.getUpdatedAt())

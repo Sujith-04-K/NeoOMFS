@@ -34,3 +34,9 @@ Thumbs.db
 /.idea/
 /build/
 /local.properties
+
+# --- Local database and temporary/backup files ---
+backend/neoomfsdb.mv.db
+backend/health_response.txt
+web/src/pages/PatientRegistrationPage_backup2.jsx
+/gradle.properties

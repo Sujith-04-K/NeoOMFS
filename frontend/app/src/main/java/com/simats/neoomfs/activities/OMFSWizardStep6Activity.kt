@@ -217,6 +217,20 @@ class OMFSWizardStep6Activity : AppCompatActivity() {
             finish()
         }
 
+        // Skip button
+        val btnWizardSkip = findViewById<android.widget.TextView?>(R.id.btnWizardSkip)
+        btnWizardSkip?.setOnClickListener {
+            startActivity(Intent(this, OMFSWizardStep7Activity::class.java).apply {
+                putExtra("patient_id", patientId)
+                putExtra("patient_name", name)
+                putExtra("patient_age", age)
+                putExtra("patient_gender", gender)
+                putExtra("patient_procedure", procedure)
+                putExtra("patient_asa", asa)
+                putStringArrayListExtra("patient_allergies", allergies)
+            })
+        }
+
         btnWizardNext.setOnClickListener {
             val opening = etMouthOpening.text.toString().trim()
             val tooth = etToothNumber.text.toString().trim()
@@ -248,6 +262,10 @@ class OMFSWizardStep6Activity : AppCompatActivity() {
                 toothNumber = tooth,
                 clinicalExaminationNotes = notes
             )
+
+            val tvNextText = btnWizardNext.getChildAt(0) as? android.widget.TextView
+            btnWizardNext.isEnabled = false
+            tvNextText?.text = "Saving…"
 
             lifecycleScope.launch {
                 wizardRepository.saveDental(patientId, request)
@@ -295,6 +313,8 @@ class OMFSWizardStep6Activity : AppCompatActivity() {
                         startActivity(intent)
                     }
                     .onFailure {
+                        btnWizardNext.isEnabled = true
+                        tvNextText?.text = "Next step →"
                         Toast.makeText(this@OMFSWizardStep6Activity, it.message ?: "Unable to save dental examination", Toast.LENGTH_LONG).show()
                     }
             }

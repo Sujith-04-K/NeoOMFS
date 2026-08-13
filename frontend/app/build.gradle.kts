@@ -16,6 +16,10 @@ val releaseApiBaseUrl = providers.gradleProperty("RELEASE_API_BASE_URL").orNull
     ?: localProperties.getProperty("release.api.base.url")
     ?: ""
 
+kotlin {
+    jvmToolchain(21)
+}
+
 android {
     namespace = "com.simats.neoomfs"
     compileSdk {

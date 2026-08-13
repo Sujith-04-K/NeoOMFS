@@ -53,7 +53,7 @@ public class ExportServiceImpl implements ExportService {
                     .append(escapeCsv(p.getGender())).append(",")
                     .append(escapeCsv(p.getBloodGroup())).append(",")
                     .append(escapeCsv(p.getPhoneNumber())).append(",")
-                    .append(escapeCsv(p.getReferringDoctor())).append(",")
+                    .append(escapeCsv(p.getReferringDoctor() != null ? p.getReferringDoctor().getFullName() : "")).append(",")
                     .append(p.getAssessmentStatus() != null ? p.getAssessmentStatus().name() : "").append(",")
                     .append(escapeCsv(p.getCreatedBy() != null ? p.getCreatedBy().getFullName() : "SYSTEM")).append(",")
                     .append(p.getCreatedAt() != null ? p.getCreatedAt().format(DATE_TIME_FORMATTER) : "").append("\n");
@@ -92,7 +92,7 @@ public class ExportServiceImpl implements ExportService {
                 row.createCell(4).setCellValue(p.getGender());
                 row.createCell(5).setCellValue(p.getBloodGroup());
                 row.createCell(6).setCellValue(p.getPhoneNumber());
-                row.createCell(7).setCellValue(p.getReferringDoctor());
+                row.createCell(7).setCellValue(p.getReferringDoctor() != null ? p.getReferringDoctor().getFullName() : "");
                 row.createCell(8).setCellValue(p.getAssessmentStatus() != null ? p.getAssessmentStatus().name() : "");
                 row.createCell(9).setCellValue(p.getCreatedBy() != null ? p.getCreatedBy().getFullName() : "SYSTEM");
                 row.createCell(10).setCellValue(p.getCreatedAt() != null ? p.getCreatedAt().format(DATE_TIME_FORMATTER) : "");
@@ -145,7 +145,7 @@ public class ExportServiceImpl implements ExportService {
                 table.addCell(new Phrase(p.getAge() != null ? String.valueOf(p.getAge()) : "", cellFont));
                 table.addCell(new Phrase(p.getGender(), cellFont));
                 table.addCell(new Phrase(p.getPhoneNumber() != null ? p.getPhoneNumber() : "", cellFont));
-                table.addCell(new Phrase(p.getReferringDoctor() != null ? p.getReferringDoctor() : "", cellFont));
+                table.addCell(new Phrase(p.getReferringDoctor() != null ? p.getReferringDoctor().getFullName() : "", cellFont));
                 table.addCell(new Phrase(p.getAssessmentStatus() != null ? p.getAssessmentStatus().name() : "", cellFont));
                 table.addCell(new Phrase(p.getCreatedAt() != null ? p.getCreatedAt().format(DATE_TIME_FORMATTER) : "", cellFont));
             }

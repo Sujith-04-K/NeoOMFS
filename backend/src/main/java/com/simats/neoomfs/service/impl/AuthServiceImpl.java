@@ -170,16 +170,30 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional(noRollbackFor = MailDeliveryException.class)
     public void forgotPassword(ForgotPasswordRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", request.getEmail()));
 
+        // Always generate a true random 6-digit OTP (never hardcode)
         String otp = String.format("%06d", ThreadLocalRandom.current().nextInt(0, 1_000_000));
+        // Always log at WARN so OTP is visible in server logs even in dev mode or if email fails
+        log.warn("==========================================================");
+        log.warn(" Password Reset OTP for user: {} ({})", user.getEmail(), user.getFullName());
+        log.warn(" OTP Code: {} (expires in 15 minutes)", otp);
+        log.warn("==========================================================");
         user.setPasswordResetToken(otp);
         user.setPasswordResetExpiry(LocalDateTime.now().plusMinutes(15));
-        passwordResetEmailService.sendPasswordResetEmail(user.getEmail(), user.getFullName(), otp);
+
+        try {
+            passwordResetEmailService.sendPasswordResetEmail(user.getEmail(), user.getFullName(), otp);
+            log.info("Password reset email sent successfully to {}", user.getEmail());
+        } catch (Exception ex) {
+            log.error("Failed to deliver password reset email to {}: {}. OTP can still be checked in Spring Boot console logs.", user.getEmail(), ex.getMessage());
+        }
+
         userRepository.save(user);
-        log.info("Password reset OTP generated for user {}", user.getEmail());
+        log.info("Password reset OTP generated and email attempted for user {}", user.getEmail());
         auditLogService.log(user.getId(), user.getUsername(), null, "AUTH", "FORGOT_PASSWORD", "Password reset OTP requested", "User", user.getId());
     }
 
