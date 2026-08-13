@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="NeoOMFS Android E2E Automation Suite" verbose="1" parallel="false">
+
+    <parameter name="deviceName" value="emulator-5554"/>
+    <parameter name="platformVersion" value="13.0"/>
+    <parameter name="appPackage" value="com.simats.neoomfs"/>
+    <parameter name="appActivity" value="com.simats.neoomfs.MainActivity"/>
+
+    <!-- ======================================================
+         MODULE 1: AUTHENTICATION (40 test cases)
+    ====================================================== -->
+    <test name="Authentication Tests" preserve-order="true">
+        <classes>
+            <class name="com.simats.neoomfs.tests.AuthenticationTest"/>
+        </classes>
+    </test>
+
+    <!-- ======================================================
+         MODULE 2: AUTHORIZATION (30 test cases)
+    ====================================================== -->
+    <test name="Authorization Tests" preserve-order="true">
+        <classes>
+            <class name="com.simats.neoomfs.tests.AuthorizationTest"/>
+        </classes>
+    </test>
+
+    <!-- ======================================================
+         MODULE 3: PATIENT REGISTRATION (20 test cases)
+    ====================================================== -->
+    <test name="Patient Registration Tests" preserve-order="true">
+        <classes>
+            <class name="com.simats.neoomfs.tests.PatientRegistrationTest"/>
+        </classes>
+    </test>
+
+    <!-- ======================================================
+         MODULE 4: DASHBOARD (20 test cases)
+    ====================================================== -->
+    <test name="Dashboard Tests" preserve-order="true">
+        <classes>
+            <class name="com.simats.neoomfs.tests.DashboardTest"/>
+        </classes>
+    </test>
+
+    <!-- ======================================================
+         MODULE 5: NAVIGATION (30 test cases)
+    ====================================================== -->
+    <test name="Navigation Tests" preserve-order="true">
+        <classes>
+            <class name="com.simats.neoomfs.tests.NavigationTest"/>
+        </classes>
+    </test>
+
+    <!-- ======================================================
+         MODULE 6: CLINICAL FORMS (40 test cases)
+    ====================================================== -->
+    <test name="Clinical Form Tests" preserve-order="true">
+        <classes>
+            <class name="com.simats.neoomfs.tests.ClinicalFormTest"/>
+        </classes>
+    </test>
+
+    <!-- ======================================================
+         MODULE 7: INPUT VALIDATION (40 test cases)
+    ====================================================== -->
+    <test name="Input Validation Tests" preserve-order="true">
+        <classes>
+            <class name="com.simats.neoomfs.tests.InputValidationTest"/>
+        </classes>
+    </test>
+
+    <!-- ======================================================
+         MODULE 8: REGRESSION SUITE (50+ test cases)
+    ====================================================== -->
+    <test name="Regression Suite" preserve-order="true">
+        <classes>
+            <class name="com.simats.neoomfs.tests.RegressionTest"/>
+        </classes>
+    </test>
+
+    <!-- ======================================================
+         LISTENERS
+    ====================================================== -->
+    <listeners>
+        <listener class-name="com.simats.neoomfs.listeners.TestListener"/>
+        <listener class-name="com.simats.neoomfs.listeners.ReportListener"/>
+    </listeners>
+
+</suite>

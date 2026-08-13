@@ -1,0 +1,95 @@
+config:
+  target: "http://localhost:8080/api/v1"
+  phases:
+    # BASELINE: 100 concurrent users × 60 seconds
+    - name: "Baseline — 100 Users × 60s"
+      duration: 60
+      arrivalRate: 5
+      rampTo: 100
+
+    # STRESS: Ramp to 500 users
+    - name: "Stress — Ramp to 500 Users"
+      duration: 60
+      arrivalRate: 100
+      rampTo: 500
+
+    # SPIKE: Sudden 50 → 500 users
+    - name: "Spike — Sudden Surge"
+      duration: 30
+      arrivalRate: 500
+
+    # COOL DOWN
+    - name: "Cool Down"
+      duration: 30
+      arrivalRate: 500
+      rampTo: 0
+
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+  # Performance thresholds
+  ensure:
+    p95: 500       # 95th percentile < 500ms
+    p99: 2000      # 99th percentile < 2000ms
+    maxErrorRate: 1 # Error rate < 1%
+
+  plugins:
+    metrics-by-endpoint: {}
+
+scenarios:
+  - name: "Authentication Flow"
+    weight: 30
+    flow:
+      - post:
+          url: "/auth/login"
+          json:
+            email: "doctor@simats.ac.in"
+            password: "Password@123"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      - think: 1
+
+  - name: "Dashboard Navigation Flow"
+    weight: 40
+    flow:
+      - get:
+          url: "/dashboard"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+      - think: 1
+      - get:
+          url: "/patients?page=0&size=15"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+      - think: 1
+      - get:
+          url: "/patients?search=test&size=10"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+      - think: 1
+
+  - name: "Patient Registration Flow"
+    weight: 20
+    flow:
+      - post:
+          url: "/patients"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            fullName: "Load Test Patient {{ $randomNumber }}"
+            age: 30
+            gender: "MALE"
+            bloodGroup: "O_POSITIVE"
+            phoneNumber: "9876543210"
+      - think: 2
+
+  - name: "Report Generation Flow"
+    weight: 10
+    flow:
+      - get:
+          url: "/reports?status=COMPLETED&size=10"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+      - think: 3
