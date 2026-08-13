@@ -28,6 +28,22 @@ Thumbs.db
 *.hprof
 .vscode/
 .antigravity-ide/
+
+# --- Automation (Node.js Selenium) ---
+automation/web/node_modules/
+automation/web/package-lock.json
+
+# --- Automation (Appium / Maven) ---
+automation/android/target/
+
+# --- Generated Test Reports (recreated by CI) ---
+automation/web/Test Results/
+automation/android/Test Results/
+automation/android/reports/
+automation/android/screenshots/
+automation/android/logs/
+Test Results/
+docs/reports/
 .agents/
 .gemini/
 /.gradle/
