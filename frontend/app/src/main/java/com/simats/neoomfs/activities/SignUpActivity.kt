@@ -8,11 +8,13 @@ import android.text.Html
 import android.text.InputType
 import android.util.Patterns
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -33,6 +35,8 @@ class SignUpActivity : AppCompatActivity() {
         val etFullName = findViewById<EditText>(R.id.etFullName)
         val etHospital = findViewById<EditText>(R.id.etHospital)
         val etLicense = findViewById<EditText>(R.id.etLicense)
+        val spRole = findViewById<Spinner>(R.id.spRole)
+        val spDepartment = findViewById<Spinner>(R.id.spDepartment)
         val etEmail = findViewById<EditText>(R.id.etEmail)
         val etPassword = findViewById<EditText>(R.id.etPassword)
         val ivEyeToggle = findViewById<ImageView>(R.id.ivEyeToggle)
@@ -42,6 +46,27 @@ class SignUpActivity : AppCompatActivity() {
         val tvSignInLink = findViewById<TextView>(R.id.tvSignInLink)
         val tvBtnSignUpText = btnSignUp.getChildAt(0) as? TextView
         val progressBar = findViewById<ProgressBar?>(R.id.progressBarSignUp)
+
+        // Setup Role Spinner
+        val rolesList = listOf("Doctor (MDS / OMFS)", "Student (BDS / MDS)")
+        val roleAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, rolesList)
+        roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spRole.adapter = roleAdapter
+
+        // Setup Department Spinner
+        val deptsList = listOf(
+            "Oral and Maxillofacial Surgery",
+            "Oral Medicine and Radiology",
+            "Orthodontics and Dentofacial Orthopaedics",
+            "Periodontology",
+            "Prosthodontics",
+            "Conservative Dentistry and Endodontics",
+            "Pedodontics",
+            "Oral Pathology and Microbiology"
+        )
+        val deptAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, deptsList)
+        deptAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spDepartment.adapter = deptAdapter
 
         // Make "Terms of Service" look clickable and bold in HTML
         val termsHtml = "I agree to the <font color='#2563EB'><b>Terms of Service</b></font> and acknowledge the clinical data privacy protocols."
@@ -72,6 +97,9 @@ class SignUpActivity : AppCompatActivity() {
             val name = etFullName.text.toString().trim()
             val hospital = etHospital.text.toString().trim()
             val license = etLicense.text.toString().trim()
+            val rawRole = spRole.selectedItem?.toString() ?: "Doctor (MDS / OMFS)"
+            val role = if (rawRole.contains("Student")) "ROLE_STUDENT" else "ROLE_DOCTOR"
+            val department = spDepartment.selectedItem?.toString() ?: "Oral and Maxillofacial Surgery"
             val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
 
@@ -109,7 +137,7 @@ class SignUpActivity : AppCompatActivity() {
             }
 
             setLoading(true)
-            authViewModel.signUp(name, hospital, license, email, password)
+            authViewModel.signUp(name, hospital, license, email, password, role, department)
         }
 
         lifecycleScope.launch {

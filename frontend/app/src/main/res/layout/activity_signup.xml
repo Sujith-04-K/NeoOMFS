@@ -129,6 +129,44 @@
                     android:textColor="@color/text_primary_dark"
                     android:textSize="15sp" />
 
+                <!-- Role Selection -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="ROLE *"
+                    android:textColor="@color/text_secondary_gray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spRole"
+                    android:contentDescription="Role Selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_edit_text"
+                    android:paddingHorizontal="16dp" />
+
+                <!-- Department Selection -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="DEPARTMENT"
+                    android:textColor="@color/text_secondary_gray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spDepartment"
+                    android:contentDescription="Department Selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_edit_text"
+                    android:paddingHorizontal="16dp" />
+
                 <!-- Professional Email Label & Input -->
                 <TextView
                     android:layout_width="wrap_content"

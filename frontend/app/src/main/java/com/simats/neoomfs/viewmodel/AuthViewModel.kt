@@ -39,7 +39,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun signUp(fullName: String, hospital: String, licenseNumber: String, email: String, password: String) {
+    fun signUp(fullName: String, hospital: String, licenseNumber: String, email: String, password: String, role: String, department: String) {
         _authState.value = AuthState.Loading
         viewModelScope.launch {
             val username = email.substringBefore("@").ifBlank { fullName.replace(" ", "").lowercase() }
@@ -48,9 +48,10 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 username = username,
                 email = email,
                 password = password,
-                role = "ROLE_DOCTOR",
+                role = role,
                 licenseNumber = licenseNumber,
-                institution = hospital
+                institution = hospital,
+                department = department
             )
             val result = repository.register(request)
             result.onSuccess {
