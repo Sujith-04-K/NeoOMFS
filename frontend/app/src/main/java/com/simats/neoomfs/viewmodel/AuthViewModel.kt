@@ -30,7 +30,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     fun login(email: String, password: String) {
         _authState.value = AuthState.Loading
         viewModelScope.launch {
-            val result = repository.login(LoginRequest(email, password))
+            val result = repository.login(LoginRequest(email.trim().lowercase(), password))
             result.onSuccess {
                 _authState.value = AuthState.Success(it)
             }.onFailure {
@@ -42,11 +42,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     fun signUp(fullName: String, hospital: String, licenseNumber: String, email: String, password: String, role: String, department: String) {
         _authState.value = AuthState.Loading
         viewModelScope.launch {
-            val username = email.substringBefore("@").ifBlank { fullName.replace(" ", "").lowercase() }
+            val cleanEmail = email.trim().lowercase()
+            val username = cleanEmail.substringBefore("@").ifBlank { fullName.replace(" ", "").lowercase() }
             val request = RegisterRequest(
                 fullName = fullName,
                 username = username,
-                email = email,
+                email = cleanEmail,
                 password = password,
                 role = role,
                 licenseNumber = licenseNumber,
@@ -65,9 +66,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     fun sendPasswordReset(email: String) {
         _authState.value = AuthState.Loading
         viewModelScope.launch {
-            val result = repository.forgotPassword(email)
+            val result = repository.forgotPassword(email.trim().lowercase())
             result.onSuccess {
-                _authState.value = AuthState.PasswordResetSent(email)
+                _authState.value = AuthState.PasswordResetSent(email.trim().lowercase())
             }.onFailure {
                 _authState.value = AuthState.Error(it.message ?: "Unable to send reset email")
             }
@@ -77,7 +78,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     fun resetPassword(email: String, otp: String, newPassword: String) {
         _authState.value = AuthState.Loading
         viewModelScope.launch {
-            val result = repository.resetPassword(email, otp, newPassword)
+            val result = repository.resetPassword(email.trim().lowercase(), otp.trim(), newPassword)
             result.onSuccess {
                 _authState.value = AuthState.PasswordResetComplete("Password reset successful. Please sign in.")
             }.onFailure {
