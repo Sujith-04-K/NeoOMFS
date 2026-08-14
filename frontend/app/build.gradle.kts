@@ -17,7 +17,7 @@ val releaseApiBaseUrl = providers.gradleProperty("RELEASE_API_BASE_URL").orNull
     ?: ""
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(17)
 }
 
 android {
@@ -40,7 +40,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "API_BASE_URL", "\"http://10.44.129.205:8080/api/v1/\"")
+            buildConfigField("String", "API_BASE_URL", "\"http://172.23.50.35:8080/api/v1/\"")
         }
         release {
             buildConfigField("String", "API_BASE_URL", "\"${releaseApiBaseUrl}\"")
@@ -50,8 +50,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true
